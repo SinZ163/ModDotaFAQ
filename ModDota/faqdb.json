@@ -1,0 +1,9 @@
+{
+	"frota" : ["this is a test message"],
+	"help" : ["this is a second test message"],
+	"test" : [
+		"This is part one of a test message",
+		"This is part two of a test message"
+	],
+	"github people" : ["This isn't actually the copy on Renol, sorry about that"]
+}
