@@ -38,8 +38,8 @@ nameTranslate = [
     "Operator",
     "Bot Admin"
 ]
+#Nicknames in this list cannot run the commands, even if they have permission
 banList = [
-    "DarkMio"
 ]
 #What is our homemade prefix?
 mainPrefix = "??"
@@ -84,7 +84,7 @@ def onPrivmsg(self, channels, userdata, message, currChannel):
     #this may or may not blow up, lets be careful
     try:
         if userdata["name"] in banList:
-            self.sendNotice(userData["name"], "You have been banned from using this command.")
+            self.sendNotice(userdata["name"], "You have been banned from using this command.")
             return
         if rank >= commands[params[0]]["rank"]:
             #They ARE smart enough, lets try to run the command
