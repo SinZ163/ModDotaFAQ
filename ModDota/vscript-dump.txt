@@ -1,0 +1,2124 @@
+Class CBaseAnimating, CBaseEntity - Animating models
+    // Get the named attachement id
+    int LookupAttachment( cstring )
+
+    // Get the attachement id's origin vector
+    vector GetAttachmentOrigin( int )
+
+    // Get the attachement id's angles as a p,y,r vector
+    vector GetAttachmentAngles( int )
+
+    // Ask whether the main sequence is done playing
+    bool IsSequenceFinished()
+
+    // Sets a bodygroup
+    void SetBodygroup( int, int )
+
+    // Set the model scale
+    void SetModelScale( float, float )
+
+    // Gets the current model scale.
+    float GetModelScale()
+
+Class CBaseEntity - Root class of all server-side entities
+    // Adds an I/O connection that will call the named function when the specified output fires
+    void ConnectOutput( cstring, cstring )
+
+    // Removes a connected script function from an I/O event.
+    void DisconnectOutput( cstring, cstring )
+
+    int GetHealth()
+
+    void SetHealth( int )
+
+    int GetMaxHealth()
+
+    void SetMaxHealth( int )
+
+    bool IsAlive()
+
+    void Remove()
+
+    // Is this a player entity?
+    bool IsPlayer()
+
+    void SetModel( cstring )
+
+    // Returns the name of the model
+    cstring GetModelName()
+
+    // Plays a sound from this entity.
+    void EmitSound( cstring )
+
+    // Plays/modifies a sound from this entity. changes sound if nPitch and/or flVol is > 0.
+    void EmitSoundParams( cstring, int, float )
+
+    // Stops a named sound playing from this entity.
+    void StopSound( cstring )
+
+    // Precache a sound for later playing.
+    void PrecacheSoundScript( cstring )
+
+    // Returns float duration of the sound. Takes soundname and optional actormodelname.
+    float GetSoundDuration( cstring, cstring )
+
+    cstring GetClassname()
+
+    cstring GetName()
+
+    // Get the entity as an EHANDLE
+    unknown_variant_type GetEntityHandle()
+
+    // Get the entity name stripped of template unique decoration
+    cstring GetPreTemplateName()
+
+    vector GetAbsOrigin()
+
+    void SetAbsOrigin( vector )
+
+    vector GetOrigin()
+
+    // SetOrigin
+    void SetAbsOrigin( vector )
+
+    void SetOrigin( vector )
+
+    // Get the forward vector of the entity
+    vector GetForwardVector()
+
+    // Get the right vector of the entity
+    vector GetRightVector()
+
+    // Get the up vector of the entity
+    vector GetUpVector()
+
+    // Set the orientation of the entity to have this forward vector
+    void SetForwardVector( vector )
+
+    vector GetVelocity()
+
+    void SetVelocity( vector )
+
+    // Set the local angular velocity - takes float pitch,yaw,roll velocities
+    void SetAngularVelocity( float, float, float )
+
+    // Get the local angular velocity - returns a vector of pitch,yaw,roll
+    vector GetAngularVelocity()
+
+    // Get vector to center of object - absolute coords
+    vector GetCenter()
+
+    // Get vector to eye position - absolute coords
+    vector EyePosition()
+
+    // Set entity pitch, yaw, roll
+    void SetAngles( float, float, float )
+
+    // Get entity pitch, yaw, roll as a vector
+    vector GetAngles()
+
+    void SetSize( vector, vector )
+
+    // Get a vector containing min bounds, centered on object
+    vector GetBoundingMins()
+
+    // Get a vector containing max bounds, centered on object
+    vector GetBoundingMaxs()
+
+    void Destroy()
+
+    void SetOwner( hscript )
+
+    int GetTeam()
+
+    void SetTeam( int )
+
+    // If in hierarchy, retrieves the entity's parent
+    hscript GetMoveParent()
+
+    // If in hierarchy, walks up the hierarchy to find the root parent
+    hscript GetRootMoveParent()
+
+    hscript FirstMoveChild()
+
+    hscript NextMovePeer()
+
+    // @
+    bool __KeyValueFromString( cstring, cstring )
+
+    // @
+    bool __KeyValueFromFloat( cstring, float )
+
+    // @
+    bool __KeyValueFromInt( cstring, int )
+
+    // @
+    bool __KeyValueFromVector( cstring, vector )
+
+    // Fires off this entity's OnTrigger responses
+    void Trigger()
+
+    // Retrieve the public script-side data associated with an entity
+    hscript GetPublicScriptScope()
+
+    // Retrieve, creating if necessary, the public script-side data associated with an entity
+    hscript GetOrCreatePublicScriptScope()
+
+    // Retrieve the private per-instance script-side data associated with an entity
+    hscript GetPrivateScriptScope()
+
+    // Retrieve, creating if necessary, the private per-instance script-side data associated with an entity
+    hscript GetOrCreatePrivateScriptScope()
+
+    // Gets this entity's owner
+    hscript GetOwner()
+
+    // Sets this entity's owner
+    void SetOwner( hscript )
+
+    unknown_variant_type entindex()
+
+    // Set a think function on this entity.
+    void SetContextThink( cstring, hscript, float )
+
+Class CBaseFlex, CBaseAnimating - Animated characters who have vertex flex capability.
+    // Returns the instance of the oldest active scene entity (if any).
+    hscript GetCurrentScene()
+
+    // Returns the instance of the scene entity at the specified index.
+    hscript GetSceneByIndex( int )
+
+Class CBasePlayer, CBaseAnimating - The player entity.
+    // Returns true if the player is in noclip mode.
+    bool IsNoclipping()
+
+Class CBaseTrigger, CBaseEntity - Map trigger
+    // Checks whether the passed entity is touching the trigger.
+    bool IsTouching( hscript )
+
+Class CDOTABaseAbility, CBaseEntity - An ability
+    // Returns the name of this ability.
+    cstring GetAbilityName()
+
+    // Gets a value from this ability's special value block for its current level.
+    variant GetSpecialValueFor( cstring )
+
+    // Gets the cast range of the ability.
+    int GetCastRange()
+
+    // Returns whether the ability can be cast.
+    bool IsFullyCastable()
+
+    // Returns whether the ability is currently channeling.
+    bool IsChanneling()
+
+    // Returns whether the ability is currently casting.
+    bool IsInAbilityPhase()
+
+    // Get the cooldown duration for this ability at a given level, not the amount of cooldown actually left.
+    float GetCooldown( int )
+
+    // Clear the cooldown remaining on this ability.
+    void EndCooldown()
+
+    // Mark the ability button for this ability as needing a refresh
+    void MarkAbilityButtonDirty()
+
+    // Get the current level of the ability
+    int GetLevel()
+
+    // Sets the level of this ability.
+    void SetLevel( int )
+
+    hscript GetCaster()
+
+    hscript GetCursorTarget()
+
+    float GetCastPoint()
+
+    vector GetCursorPosition()
+
+    bool GetCursorTargetingNothing()
+
+    bool IsTrained()
+
+    float GetPlaybackRateOverride()
+
+    cstring GetAbilityName()
+
+    void SetAbilityIndex( int )
+
+    int GetAbilityIndex()
+
+    int GetAbilityType()
+
+    void UpgradeAbility()
+
+    void OnAbilityPinged()
+
+    int GetHeroLevelRequiredToUpgrade()
+
+    bool IsPassive()
+
+    bool IsToggle()
+
+    bool IsHidden()
+
+    bool IsActivated()
+
+    bool IsCosmetic()
+
+    bool IsSharedWithTeammates()
+
+    void SetHidden( bool )
+
+    void SetActivated( bool )
+
+    void ToggleAutoCast()
+
+    bool GetAutoCastState()
+
+    bool IsItem()
+
+    float GetChannelTime()
+
+    float GetChannelStartTime()
+
+    // Param: bool bInterrupted
+    void EndChannel( bool )
+
+    void ToggleAbility()
+
+    void CastAbility()
+
+    int GetCastRange()
+
+    bool ContinueCasting()
+
+    bool GetAnimationIgnoresModelScale()
+
+    void SetOverrideCastPoint( float )
+
+    float GetModifierValue()
+
+    float GetModifierValueBonus()
+
+    void SetRefCountsModifiers( bool )
+
+    bool RefCountsModifiers()
+
+    void IncrementModifierRefCount()
+
+    void DecrementModifierRefCount()
+
+    int NumModifiersUsingAbility()
+
+    bool IsAttributeBonus()
+
+    bool ProcsMagicStick()
+
+    // param: flCooldown
+    void StartCooldown( float )
+
+    bool IsCooldownReady()
+
+    cstring GetSharedCooldownName()
+
+    float GetCooldownTime()
+
+    float GetCooldownTimeRemaining()
+
+    bool ShouldUseResources()
+
+    void UseResources( bool, bool, bool )
+
+    void PayManaCost()
+
+    void RefundManaCost()
+
+    bool IsOwnersManaEnough()
+
+    void PayGoldCost()
+
+    bool IsOwnersGoldEnough( int )
+
+    void PayGoldCostForUpgrade()
+
+    bool IsOwnersGoldEnoughForUpgrade()
+
+    int GetAbilityDamage()
+
+    float GetDuration()
+
+    hscript GetCloneSource()
+
+    void CreateVisibilityNode( vector, float, float )
+
+    bool GetToggleState()
+
+    int GetBehavior()
+
+    int GetAbilityTargetTeam()
+
+    int GetAbilityTargetType()
+
+    int GetAbilityTargetFlags()
+
+    int GetAbilityDamageType()
+
+    int GetMaxLevel()
+
+    bool OnAbilityPhaseStart()
+
+    void OnAbilityPhaseInterrupted()
+
+    void OnSpellStart()
+
+    void OnChannelFinish( bool )
+
+    void OnUpgrade()
+
+    void OnOwnerSpawned()
+
+    void OnToggle()
+
+    void OnOwnerDied()
+
+    float GetBackswingTime()
+
+    int GetManaCost( int )
+
+    int GetChannelledManaCostPerSecond( int )
+
+    int GetGoldCost( int )
+
+    int GetGoldCostForUpgrade( int )
+
+    cstring GetIntrinsicModifierName()
+
+    bool ResetToggleOnRespawn()
+
+    void OnHeroLevelUp()
+
+    void OnInventoryContentsChanged()
+
+    void OnHeroCalculateStatBonus()
+
+    bool HeroXPChange( float )
+
+    void OnChannelThink( float )
+
+    void SpeakAbilityConcept( int )
+
+    int GetConceptRecipientType()
+
+    bool SpeakTrigger()
+
+    void SetInAbilityPhase( bool )
+
+    void SetChanneling( bool )
+
+    cstring GetAssociatedPrimaryAbilities()
+
+    cstring GetAssociatedSecondaryAbilities()
+
+    bool IsStealable()
+
+    bool IsHiddenWhenStolen()
+
+    void SetStolen( bool )
+
+    bool IsStolen()
+
+    bool PlaysDefaultAnimWhenStolen()
+
+    cstring GetStolenActivityModifier()
+
+    variant GetLevelSpecialValueFor( cstring, int )
+
+    variant GetSpecialValueFor( cstring )
+
+Class CDOTABaseGameMode, CBaseEntity - Base game mode class
+    // Show the player hero's inventory in the HUD, regardless of what unit is selected.
+    void SetAlwaysShowPlayerInventory( bool )
+
+    // Turn the sound when gold is acquired off/on. Takes a bool.
+    void SetGoldSoundDisabled( bool )
+
+    // Turn the panel for showing recommended items at the shop off/on. Takes a bool.
+    void SetRecommendedItemsDisabled( bool )
+
+    // Set a different camera distance; dota default is 1134.
+    void SetCameraDistanceOverride( float )
+
+    // Set an override for the default selection entity, instead of each player's hero.
+    void SetOverrideSelectionEntity( hscript )
+
+    // Make it so illusions are immediately removed upon death, rather than sticking around for a few seconds.
+    void SetRemoveIllusionsOnDeath( bool )
+
+    // Tell clients that they need to load gridnav information. Used for things like allowing clients to identify valid locations to place buildings.
+    void ClientLoadGridNav()
+
+    // Turn the fog of war on or off.
+    void SetFogOfWarDisabled( bool )
+
+    // Turns on capability to define custom buyback costs.
+    void SetCustomBuybackCostEnabled( bool )
+
+    // Turns on capability to define custom buyback cooldowns.
+    void SetCustomBuybackCooldownEnabled( bool )
+
+    // Enables or disables buyback completely
+    void SetBuybackEnabled( bool )
+
+    // Override the values of the team values on the top game bar.
+    void SetTopBarTeamValuesOverride( bool )
+
+    // Turning on/off the team values on the top game bar.
+    void SetTopBarTeamValuesVisible( bool )
+
+    // Set the team values on the top game bar.
+    void SetTopBarTeamValue( int, int )
+
+    // Turn on custom-defined XP values for hero level ups.  The table should be defined before switching this on.
+    void SetUseCustomHeroLevels( bool )
+
+    // Allows definition of the max level heroes can achieve (default is 25).
+    void SetCustomHeroMaxLevel( int )
+
+    // Allows definition of a table of hero XP values.
+    void SetCustomXPRequiredToReachNextLevel( hscript )
+
+Class CDOTAGamerules - !DOTA GameRules
+    // Get the current Gamerules state
+    unknown_variant_type State_Get()
+
+    // Returns the number of seconds elapsed since map start. This time doesn't count up when the game is paused
+    float GetGameTime()
+
+    // Returns difficulty level of the custom game mode
+    int GetDifficulty()
+
+    // Returns the difficulty level of the custom game mode
+    int GetCustomGameDifficulty()
+
+    // Kills the ancient, etc.
+    void Defeated()
+
+    // Restart after killing the ancient, etc.
+    void ResetDefeated()
+
+    // Makes ths specified team win
+    void SetGameWinner( int )
+
+    // Makes ths specified team lose
+    void MakeTeamLose( int )
+
+    // Resets the map in one of several ways
+    void ResetMap( int )
+
+    // Gets the Xth dropped item
+    hscript GetDroppedItem( int )
+
+    // Returns the number of items currently dropped on the ground
+    int NumDroppedItems()
+
+    // Sends a string to the defined team.
+    void SendCustomMessage( cstring, int, int )
+
+    // Control if the normal DOTA hero respawn rules apply.
+    void SetHeroRespawnEnabled( bool )
+
+    // Updates custom hero, unit and ability KeyValues in memory with the latest values from disk
+    void Playtesting_UpdateAddOnKeyValues()
+
+    // Restart the game at hero selection
+    void ResetToHeroSelection()
+
+    // Sets the tree regrow time in seconds.
+    void SetTreeRegrowTime( float )
+
+    // Sets the amount of time players have to pick their hero.
+    void SetHeroSelectionTime( float )
+
+    // Sets the amount of time players have between picking their hero and game start.
+    void SetPreGameTime( float )
+
+    // Sets the amount of time players have between the game ending and the server disconnecting them.
+    void SetPostGameTime( float )
+
+    // Sets the amount of time between rune spawns.
+    void SetRuneSpawnTime( float )
+
+    // When true, players can repeatedly pick the same hero.
+    void SetSameHeroSelectionEnabled( bool )
+
+    // When true, all items are available at as long as any shop is in range.
+    void SetUseUniversalShopMode( bool )
+
+    // Heroes will use the basic NPC functionality for determining their bounty, rather than DOTA specific formulas.
+    void SetUseBaseGoldBountyOnHeroes( bool )
+
+    // Set the time of day.
+    void SetTimeOfDay( float )
+
+    // Show this unit's health on the overlay health bar
+    void SetOverlayHealthBarUnit( hscript, int )
+
+    // (nMinimapHeroIconSize) - Set the hero minimap icon size.
+    void SetHeroMinimapIconSize( int )
+
+    // (flMinimapCreepIconScale) - Scale the creep icons on the minimap.
+    void SetCreepMinimapIconScale( float )
+
+    // (flMinimapRuneIconScale) - Scale the rune icons on the minimap.
+    void SetRuneMinimapIconScale( float )
+
+    // (bSafeToLeave) - Mark this game as safe to leave.
+    void SetSafeToLeave( bool )
+
+    // Allows heroes in the map to give a specific amount of XP (this value must be set).
+    void SetUseCustomHeroXPValues( bool )
+
+    // Set the difficulty level of the custom game mode
+    void SetCustomGameDifficulty( int )
+
+    // Set the time interval between auto gold increases.
+    void SetGoldTickTime( float )
+
+    // Set the auto gold increase per timed interval.
+    void SetGoldPerTick( int )
+
+    // Sets the start time for the Nian fight
+    void SetNianFightStartTime( float )
+
+    // Gets the start time for the Nian fight
+    float GetNianFightStartTime()
+
+    // Have we received the post match signout message that includes reward information
+    bool GetMatchSignoutComplete()
+
+    // true when we have waited some time after end of the game and not received signout
+    bool DidMatchSignoutTimeOut()
+
+    // For New Bloom, get total damage taken by the Nian / Year Beast
+    int GetNianTotalDamageTaken()
+
+    // Get the game mode entity
+    hscript GetGameModeEntity()
+
+    // Sets whether First Blood has been triggered.
+    void SetFirstBloodActive( bool )
+
+Class CDOTAPlayer, CBaseAnimating - dota_player
+    // Get the player's official PlayerID; notably is -1 when the player isn't yet on a team.
+    int GetPlayerID()
+
+    // Get the player's hero.
+    hscript GetAssignedHero()
+
+    // Set the kill cam unit for this hero.
+    void SetKillCamUnit( hscript )
+
+    // Randoms this player's hero.
+    void MakeRandomHeroSelection()
+
+    // (nMusicStatus, flIntensity) - Set the music status for this player, note this will only really apply if dota_music_battle_enable is off.
+    void SetMusicStatus( int, float )
+
+Class CDOTAVoteSystem - !DOTA Vote System
+    // Starts a vote, based upon a table of parameters
+    void StartVote( hscript )
+
+Class CDOTA_Ability_Animation_Attack, CDOTABaseAbility - A Dota NPC Unit
+    // Override playbackrate
+    void SetPlaybackRate( float )
+
+Class CDOTA_Ability_Animation_TailSpin, CDOTABaseAbility - A Dota NPC Unit
+    // Override playbackrate
+    void SetPlaybackRate( float )
+
+Class CDOTA_Ability_Nian_Dive, CDOTABaseAbility - A Dota NPC Unit
+    // Override playbackrate
+    void SetPlaybackRate( float )
+
+Class CDOTA_Ability_Nian_Leap, CDOTABaseAbility - A Dota NPC Unit
+    // Override playbackrate
+    void SetPlaybackRate( float )
+
+Class CDOTA_Ability_Nian_Roar, CDOTABaseAbility - Nian's roar ability
+    // Number of times Nian has used the roar
+    int GetCastCount()
+
+Class CDOTA_BaseNPC, CBaseFlex - A Dota NPC Unit
+    // Is this creature currently idle?
+    bool IsIdle()
+
+    // Get the last game time that this unit switched to/from idle state.
+    float GetLastIdleChangeTime()
+
+    // Is this creature an Ancient?
+    bool IsAncient()
+
+    // Is this a neutral?
+    bool IsNeutralUnitType()
+
+    // Is this unit summoned?
+    bool IsSummoned()
+
+    // Is this a Creature type NPC
+    bool IsCreature()
+
+    // Is this a hero or hero illusion?
+    bool IsHero()
+
+    // Is this a real hero?
+    bool IsRealHero()
+
+    // Is this a tower?
+    bool IsTower()
+
+    // Is this unit alive?
+    bool IsAlive()
+
+    // Is the unit mechanical?
+    bool IsMechanical()
+
+    // Is this a phantom unit? 
+    bool IsPhantom()
+
+    // Set the collision hull radius of this NPC
+    void SetHullRadius( float )
+
+    // Get the collision hull radius of this NPC
+    float GetHullRadius()
+
+    // Get the collision hull radius (including padding) of this NPC
+    float GetPaddedCollisionRadius()
+
+    // If set to true, we will never attempt to move this unit to clear space, even when it unphases.
+    void SetNeverMoveToClearSpace( bool )
+
+    // Sets the initial waypoint goal for this NPC
+    void SetInitialGoalEntity( hscript )
+
+    // Returns the initial waypoint goal for this NPC
+    hscript GetInitialGoalEntity()
+
+    // Set whether this NPC is required to reach each goal entity, rather than being allowed to 'unkink' their path
+    void SetMustReachEachGoalEntity( bool )
+
+    // Get whether this NPC is required to reach each goal entity, rather than being allowed to 'unkink' their path
+    bool GetMustReachEachGoalEntity()
+
+    // Add a modifier to this unit
+    void AddNewModifier( hscript, hscript, cstring, hscript )
+
+    // Sees if this unit has a given modifier
+    bool HasModifier( cstring )
+
+    // Removes a modifier
+    void RemoveModifierByName( cstring )
+
+    // Removes a modifier that was cast by the given caster
+    void RemoveModifierByNameAndCaster( cstring, hscript )
+
+    // Add an item to this unit's inventory.
+    void AddItem( hscript )
+
+    // Add an ability to this unit by name.
+    void AddAbility( cstring )
+
+    // Remove an ability from this unit by name.
+    void RemoveAbility( cstring )
+
+    // See whether this unit has an ability by name.
+    bool HasAbility( cstring )
+
+    // See whether this unit has an item by name.
+    bool HasItemInInventory( cstring )
+
+    // Retrieve an ability by name from the unit.
+    hscript FindAbilityByName( cstring )
+
+    // Get the gold bounty on this unit
+    int GetGoldBounty()
+
+    // Set the XP bounty on this unit
+    void SetDeathXP( int )
+
+    // Get the XP bounty on this unit
+    int GetDeathXP()
+
+    // Get the name of this unit.
+    cstring GetUnitName()
+
+    // Get the team number of this unit.
+    int GetTeamNumber()
+
+    // Returns the player that owns this unit
+    hscript GetPlayerOwner()
+
+    // Set the maximum gold bounty for this unit.
+    void SetMaximumGoldBounty( int )
+
+    // Set the minimum gold bounty for this unit.
+    void SetMinimumGoldBounty( int )
+
+    // Get how much gold has been spent on ability upgrades.
+    int GetTotalPurchasedUpgradeGoldCost()
+
+    // Kill this unit immediately.
+    void ForceKill( bool )
+
+    // Get the minimum attack damage of this unit.
+    int GetBaseDamageMin()
+
+    // Get the maximum attack damage of this unit.
+    int GetBaseDamageMax()
+
+    // Heal this unit.
+    void Heal( float, hscript )
+
+    // Get the health of this unit.
+    int GetHealth()
+
+    // Get the maximum health of this unit.
+    int GetMaxHealth()
+
+    // Get the current health percent of the unit.
+    int GetHealthPercent()
+
+    // Set the mana on this unit.
+    void SetMana( float )
+
+    // Get the mana on this unit.
+    float GetMana()
+
+    // Get the maximum mana of this unit.
+    float GetMaxMana()
+
+    // Respawns the target unit if it can be respawned.
+    void RespawnUnit()
+
+    // Returns the level of this unit.
+    int GetLevel()
+
+    // Returns nth item in inventory slot (index is zero based)
+    hscript GetItemInSlot( int )
+
+    // Sets the original model of this entity, which it will tend to fall back to anytime its state changes
+    void SetOriginalModel( cstring )
+
+    // Adds the no draw flag.
+    void AddNoDraw()
+
+    // Remove the no draw flag.
+    void RemoveNoDraw()
+
+    // Get the owner player ID for this unit.
+    int GetPlayerOwnerID()
+
+    // Is this unit a ranged attacker?
+    bool IsRangedAttacker()
+
+    // Get the ability this unit is currently casting.
+    hscript GetCurrentActiveAbility()
+
+    // Issue a Move-To command
+    void MoveToPosition( vector )
+
+    // Issue an Attack-Move-To command
+    void MoveToPositionAggressive( vector )
+
+    // Move to follow a unit.
+    void MoveToNPC( hscript )
+
+    // Move to a target to attack.
+    void MoveToTargetToAttack( hscript )
+
+    // Hold position.
+    void Hold()
+
+    // Stop the current order.
+    void Stop()
+
+    // Toggle an ability.
+    void CastAbilityToggle( hscript, int )
+
+    // Cast an ability immediately.
+    void CastAbilityImmediately( hscript, int )
+
+    // Cast an ability on a position.
+    void CastAbilityOnPosition( vector, hscript, int )
+
+    // Cast an ability on a target entity.
+    void CastAbilityOnTarget( hscript, hscript, int )
+
+    // Cast an ability with no target.
+    void CastAbilityNoTarget( hscript, int )
+
+    // Drop an item at a given point.
+    void DropItemAtPosition( vector, hscript )
+
+    // Give an item to another unit.
+    void MoveToNPCToGiveItem( hscript, hscript )
+
+    // Pick up a dropped item.
+    void PickupDroppedItem( hscript )
+
+    // Pick up a rune.
+    void PickupRune( hscript )
+
+    // Immediately drop a carried item at a given position.
+    void DropItemAtPositionImmediate( hscript, vector )
+
+    // Combat involving this creature will have this weight added to the music calcuations
+    void SetAdditionalBattleMusicWeight( float )
+
+    // Combat involving this creature will have this weight added to the music calcuations
+    float GetAdditionalBattleMusicWeight()
+
+    // Returns speed after all modifiers.
+    float GetIdealSpeed()
+
+    // Returns the size of the collision padding around the hull.
+    float GetCollisionPadding()
+
+    // Returns integer amount of health missing from max.
+    int GetHealthDeficit()
+
+    // Sells the passed item in this unit's inventory.
+    void SellItem( hscript )
+
+    // Disassemble the passed item in this unit's inventory.
+    void DisassembleItem( hscript )
+
+    // Drops the selected item out of this unit's stash.
+    void EjectItemFromStash( hscript )
+
+    // Removes the passed item from this unit's inventory.
+    void RemoveItem( hscript )
+
+    // Set a new base max health value.
+    void SetBaseMaxHealth( float )
+
+    // Gets the base max health value.
+    float GetBaseMaxHealth()
+
+    // Sets the health to a specific value, with optional flags or inflictors.
+    void ModifyHealth( int, hscript, bool, int )
+
+    // Get the percent of mana remaining.
+    int GetManaPercent()
+
+    // Remove mana from this unit, this can be used for involuntary mana loss, not for mana that is spent.
+    void ReduceMana( float )
+
+    // Give mana to this unit, this can be used for mana gained by abilities or item usage.
+    void GiveMana( float )
+
+    // Spend mana from this unit, this can be used for spending mana from abilities or item usage.
+    void SpendMana( float, hscript )
+
+    // Gets the range at which this unit will auto-acquire.
+    float GetAcquisitionRange()
+
+    // Gets this unit's attack range after all modifiers.
+    float GetAttackRange()
+
+    // Gets the attack range buffer.
+    float GetAttackRangeBuffer()
+
+    // Gets this unit's attack range before modifiers.
+    int GetBaseAttackRange()
+
+    // Returns a random integer between the minimum and maximum base damage of the unit.
+    int GetAttackDamage()
+
+    // Returns the average value of the minimum and maximum damage values.
+    int GetAverageTrueAttackDamage()
+
+    // Performs an attack on a target.  Params: Target, bUseCastAttackOrb, bProcessProcs, bSkipCooldown, bIgnoreInvis
+    void PerformAttack( hscript, bool, bool, bool, bool )
+
+    // Kills this NPC, with the params Ability and Attacker
+    void Kill( hscript, hscript )
+
+    // Returns the vision range after modifiers.
+    int GetDayTimeVisionRange()
+
+    // Returns the vision range before modifiers.
+    int GetBaseDayTimeVisionRange()
+
+    // Set the base vision range.
+    void SetDayTimeVisionRange( int )
+
+    // Returns the vision range after modifiers.
+    int GetNightTimeVisionRange()
+
+    // Returns the vision range before modifiers.
+    int GetBaseNightTimeVisionRange()
+
+    // Set the base vision range.
+    void SetNightTimeVisionRange( int )
+
+    // Gets the current vision range.
+    int GetCurrentVisionRange()
+
+    // Is this unit controlled by any non-bot player?
+    bool IsControllableByAnyPlayer()
+
+    // Is this unit owned by any non-bot player?
+    bool IsOwnedByAnyPlayer()
+
+    // Returns the player ID of the controlling player.
+    int GetMainControllingPlayer()
+
+    // Set this unit controllable by the player with the passed ID.
+    void SetControllableByPlayer( int, bool )
+
+    // Gets the minimum base damage.
+    int GetBaseDamageMin()
+
+    // Gets the minimum base damage.
+    int GetBaseDamageMax()
+
+    // Sets the minimum base damage.
+    void SetBaseDamageMin( int )
+
+    // Sets the minimum base damage.
+    void SetBaseDamageMax( int )
+
+    // Returns current physical armor value.
+    float GetPhysicalArmorValue()
+
+    // Returns current magical armor value.
+    float GetMagicalArmorValue()
+
+    // Sets base physical armor value.
+    void SetPhysicalArmorBaseValue( float )
+
+    // Returns base physical armor value.
+    float GetPhysicalArmorBaseValue()
+
+    // Sets base magical armor value.
+    void SetBaseMagicalResistanceValue( float )
+
+    // Returns base magical armor value.
+    float GetBaseMagicalResistanceValue()
+
+    // Returns mana regen rate per intelligence.
+    float GetStatsBasedManaRegen()
+
+    // This Mana regen is derived from % bonuses (from items like Void Stone).
+    float GetPercentageBasedManaRegen()
+
+    // This Mana regen is derived from constant bonuses like Basilius.
+    float GetConstantBasedManaRegen()
+
+    void SetBaseHealthRegen( float )
+
+    float GetBaseHealthRegen()
+
+    float GetHealthRegen()
+
+    void SetBaseManaRegen( float )
+
+    float GetManaRegen()
+
+    void SetBaseMoveSpeed( int )
+
+    float GetBaseMoveSpeed()
+
+    void SetBaseAttackTime( float )
+
+    float GetBaseAttackTime()
+
+    float GetIncreasedAttackSpeed()
+
+    float GetAttacksPerSecond()
+
+    float GetSecondsPerAttack()
+
+    float GetHasteFactor()
+
+    // Parameter: bAttack
+    float GetCastPoint( bool )
+
+    float GetAttackSpeed()
+
+    float GetMoveSpeedModifier( float )
+
+    bool IsIllusion()
+
+    void MakeIllusion()
+
+    // Query whether the passed ability will trigger spell absorb on this unit.
+    bool TriggerSpellAbsorb( hscript )
+
+    bool TriggerModifierDodge()
+
+    // Swaps the slots of the two passed abilities and sets them enabled/disabled: const char* AbilityName1, const char* AbilityName2, bool bEnable1, bool bEnable2
+    void SwapAbilities( cstring, cstring, bool, bool )
+
+    int GetAbilityCount()
+
+    bool HasInventory()
+
+    void SetHasInventory( bool )
+
+    void SetCursorCastTarget( unknown_variant_type )
+
+    void SetCursorPosition( vector )
+
+    void SetCursorTargetingNothing( bool )
+
+    hscript GetCursorCastTarget()
+
+    vector GetCursorPosition()
+
+    bool GetCursorTargetingNothing()
+
+    bool IsRooted()
+
+    bool IsSoftDisarmed()
+
+    bool IsHardDisarmed()
+
+    bool IsDisarmed()
+
+    bool IsAttackImmune()
+
+    bool IsSilenced()
+
+    bool IsMuted()
+
+    bool IsStunned()
+
+    bool IsHexed()
+
+    bool IsInvisible()
+
+    bool IsInvulnerable()
+
+    bool IsMagicImmune()
+
+    bool NoUnitCollision()
+
+    bool ProvidesVision()
+
+    bool IsNightmared()
+
+    bool IsBlockDisabled()
+
+    bool IsEvadeDisabled()
+
+    bool IsUnselectable()
+
+    bool IsUnableToMiss()
+
+    bool IsSpeciallyDeniable()
+
+    bool IsCommandRestricted()
+
+    bool NotOnMinimap()
+
+    bool NotOnMinimapForEnemies()
+
+    bool IsLowAttackPriority()
+
+    bool NoHealthBar()
+
+    bool NoTeamSelect()
+
+    bool PassivesDisabled()
+
+    bool IsDominated()
+
+    bool IsBlind()
+
+    bool IsOutOfGame()
+
+    bool IsFrozen()
+
+    bool NoTeamMoveTo()
+
+    bool IsPhased()
+
+    bool IsDeniable()
+
+    bool IsMovementImpaired()
+
+    bool HasScepter()
+
+    void SetStolenScepter( bool )
+
+    void SetAttackCapability( int )
+
+    void SetMoveCapability( int )
+
+    bool HasGroundMovementCapability()
+
+    bool HasFlyMovementCapability()
+
+    bool HasMovementCapability()
+
+    bool HasAttackCapability()
+
+    bool HasFlyingVision()
+
+    int GetProjectileSpeed()
+
+    void SetRangedProjectileName( cstring )
+
+    void SetUnitName( cstring )
+
+    cstring GetUnitName()
+
+    cstring GetUnitLabel()
+
+    bool AttackReady()
+
+    void AttackNoEarlierThan( float )
+
+    float TimeUntilNextAttack()
+
+    float GetAttackAnimationPoint()
+
+    bool IsAttackingEntity( hscript )
+
+    bool IsAttacking()
+
+    void SetAttacking( hscript )
+
+    hscript GetAttackTarget()
+
+    void AlertNearbyUnits( hscript, hscript )
+
+    hscript GetForceAttackTarget()
+
+    void SetForceAttackTarget( hscript )
+
+    void Interrupt()
+
+    void InterruptChannel()
+
+    // Parameter boolean determines finding clear space.
+    void InterruptMotionControllers( bool )
+
+    float GetRangeToUnit( hscript )
+
+    bool IsPositionInRange( vector, float )
+
+    bool ShouldIdleAcquire()
+
+    void SetIdleAcquire( bool )
+
+    bool IsOpposingTeam( int )
+
+    int GetOpposingTeamNumber()
+
+    void MakeVisibleToTeam( int, float )
+
+    void MakeVisibleDueToAttack( int )
+
+    float BoundingRadius2D()
+
+    void MakePhantomBlocker()
+
+    bool IsPhantomBlocker()
+
+    float GetModelRadius()
+
+    bool UnitCanRespawn()
+
+    void AngerNearbyUnits()
+
+    float GetCreationTime()
+
+Class CDOTA_BaseNPC_Building, CDOTA_BaseNPC - A building.
+    // Get the invulnerability count for a building.
+    int GetInvulnCount()
+
+    // Set the invulnerability counter of this building.
+    void SetInvulnCount( int )
+
+Class CDOTA_BaseNPC_Creature, CDOTA_BaseNPC - A Dota NPC Unit
+    // Level the creature up by the specified number of levels
+    void CreatureLevelUp( int )
+
+    // Add the specified item drop to this creature
+    void AddItemDrop( hscript )
+
+    // Flag this unit as a champion creature.
+    void SetChampion( bool )
+
+    // Is this unit a champion?
+    bool IsChampion()
+
+    // Set the hit points gained per level on this creature.
+    void SetHPGain( int )
+
+    // Set the mana points gained per level on this creature.
+    void SetManaGain( int )
+
+    // Set the hit points regen gained per level on this creature.
+    void SetHPRegenGain( float )
+
+    // Set the mana points regen gained per level on this creature.
+    void SetManaRegenGain( float )
+
+    // Set the damage gained per level on this creature.
+    void SetDamageGain( int )
+
+    // Set the armor gained per level on this creature.
+    void SetArmorGain( float )
+
+    // Set the magic resistance gained per level on this creature.
+    void SetMagicResistanceGain( float )
+
+    // Set the disable resistance gained per level on this creature.
+    void SetDisableResistanceGain( float )
+
+    // Set the attack time gained per level on this creature.
+    void SetAttackTimeGain( float )
+
+    // Set the move speed gained per level on this creature.
+    void SetMoveSpeedGain( int )
+
+    // Set the bounty gold gained per level on this creature.
+    void SetBountyGain( int )
+
+    // Set the xp reward gained per level on this creature.
+    void SetXPGain( int )
+
+Class CDOTA_BaseNPC_Hero, CDOTA_BaseNPC - A Dota Hero NPC
+    // Recalculate all stats after the hero gains stats.
+    void CalculateStatBonus()
+
+    bool ShouldDoFlyHeightVisual()
+
+    bool HasFlyingVision()
+
+    void SetPlayerID( int )
+
+    // Returns player ID of the player owning this hero
+    int GetPlayerID()
+
+    int GetDeathGoldCost()
+
+    // Levels up the hero, true or false to play effects.
+    void HeroLevelUp( bool )
+
+    // Params: Float XP, Bool applyBotDifficultyScaling
+    bool AddExperience( float, bool )
+
+    // Sets a custom experience value for this hero.  Note, GameRules boolean must be set for this to work!
+    void SetCustomDeathXP( int )
+
+    // Respawn this hero.
+    void RespawnHero( bool, bool, bool )
+
+    // Hero damage is also affected by attributes.
+    int GetBaseDamageMin()
+
+    // Hero damage is also affected by attributes.
+    int GetBaseDamageMax()
+
+    // Hero armor is affected by attributes.
+    float GetPhysicalArmorValue()
+
+    // Hero mana regen is affected by attributes.
+    float GetManaRegen()
+
+    // Returns only the regen based on Intelligence.
+    float GetStatsBasedManaRegen()
+
+    // Hero attack speed is also affected by agility.
+    float GetIncreasedAttackSpeed()
+
+    // This upgrades the passed ability if it exists and the hero has enough ability points.
+    void UpgradeAbility( hscript )
+
+    // Spend the gold and buyback with this hero.
+    void Buyback()
+
+    // Return integer value for the gold cost of a buyback.
+    int GetBuybackCost()
+
+    // Return float value for the amount of time left on cooldown for this hero's buyback.
+    float GetBuybackCooldownTime()
+
+    // Sets the buyback cooldown time.
+    void SetBuybackCooldownTime( float )
+
+    // Returns the amount of time gold gain is limited after buying back.
+    float GetBuybackGoldLimitTime()
+
+    // Set the amount of time gold gain is limited after buying back.
+    void SetBuybackGoldLimitTime( float )
+
+    // Returns boolean value result of buyback gold limit time less than game time.
+    bool CanEarnGold()
+
+    // Returns the amount of XP 
+    int GetCurrentXP()
+
+    void SetBuyBackDisabledByReapersScythe( bool )
+
+    bool IsBuybackDisabledByReapersScythe()
+
+    float GetStrength()
+
+    float GetAgility()
+
+    float GetIntellect()
+
+    float GetBaseStrength()
+
+    float GetBaseAgility()
+
+    float GetBaseIntellect()
+
+    void SetBaseStrength( float )
+
+    void SetBaseAgility( float )
+
+    void SetBaseIntellect( float )
+
+    float GetStrengthGain()
+
+    float GetAgilityGain()
+
+    float GetIntellectGain()
+
+    // Adds passed value to base attribute value, then calls CalculateStatBonus.
+    void ModifyStrength( float )
+
+    // Adds passed value to base attribute value, then calls CalculateStatBonus.
+    void ModifyAgility( float )
+
+    // Adds passed value to base attribute value, then calls CalculateStatBonus.
+    void ModifyIntellect( float )
+
+    float GetRespawnTime()
+
+    // Gets the current unspent ability points.
+    int GetAbilityPoints()
+
+    // Sets the current unspent ability points.
+    void SetAbilityPoints( int )
+
+    // Passed ID is for the victim, killer ID is ID of the current hero.  Value is stored in PlayerResource.
+    void IncrementKills( int )
+
+    // Value is stored in PlayerResource.
+    void IncrementDeaths()
+
+    // Value is stored in PlayerResource.
+    void IncrementAssists()
+
+    // Value is stored in PlayerResource.
+    void IncrementLastHits()
+
+    // Value is stored in PlayerResource.
+    void IncrementDenies()
+
+    // Value is stored in PlayerResource.
+    void IncrementNearbyCreepDeaths()
+
+    void RecordLastHit()
+
+    // Value is stored in PlayerResource.
+    void IncrementLastHitStreak()
+
+    // Value is stored in PlayerResource.
+    void ClearLastHitStreak()
+
+    // Value is stored in PlayerResource.
+    void IncrementLastHitMultikill()
+
+    // Value is stored in PlayerResource.
+    void ClearLastHitMultikill()
+
+    // Value is stored in PlayerResource.
+    int GetKills()
+
+    // Value is stored in PlayerResource.
+    int GetDeaths()
+
+    // Value is stored in PlayerResource.
+    int GetAssists()
+
+    // Value is stored in PlayerResource.
+    int GetLastHits()
+
+    // Value is stored in PlayerResource.
+    int GetDenies()
+
+    // Value is stored in PlayerResource.
+    void IncrementStreak()
+
+    // Value is stored in PlayerResource.
+    void ClearStreak()
+
+    // Value is stored in PlayerResource.
+    int GetStreak()
+
+    int GetMultipleKillCount()
+
+    // Args: Hero, Inflictor
+    void KilledHero( hscript, hscript )
+
+    // Hero health regen is affected by attributes.
+    float GetHealthRegen()
+
+    // Gives this hero some gold.  Args: int nGoldChange, bool bReliable, int reason
+    int ModifyGold( int, bool, int )
+
+    // Returns gold amount for the player owning this hero
+    int GetGold()
+
+    // Sets the gold amount for the player owning this hero
+    void SetGold( int, bool )
+
+    // Args: int nGold, int nReason
+    void SpendGold( int, int )
+
+    int GetBonusDamageFromPrimaryStat()
+
+    float GetPrimaryStatValue()
+
+    int GetGoldBounty()
+
+    int GetNumAttackers()
+
+    int GetAttacker( int )
+
+    float GetMostRecentDamageTime()
+
+    float GetTimeUntilRespawn()
+
+    void SetTimeUntilRespawn( float )
+
+    // Args: const char* pItemName, bool bIncludeStashCombines, bool bAllowSelling
+    int HasRoomForItem( cstring, bool, bool )
+
+    bool HasAnyAvailableInventorySpace()
+
+    // 0 = strength, 1 = agility, 2 = intelligence.
+    int GetPrimaryAttribute()
+
+    void PerformTaunt()
+
+    bool IsReincarnating()
+
+    bool WillReincarnate()
+
+    bool UnitCanRespawn()
+
+    bool HasOwnerAbandoned()
+
+    void SetRespawnPosition( vector )
+
+Class CDOTA_Item, CDOTABaseAbility - A usable item.
+    // Set the purchase time of this item
+    void SetPurchaseTime( float )
+
+    // Get the purchase time of this item
+    float GetPurchaseTime()
+
+    // Set the purchaser of record for this item.
+    void SetPurchaser( hscript )
+
+    // Get the initial number of charges this item has.
+    int GetInitialCharges()
+
+    // Get the number of charges this item currently has.
+    int GetCurrentCharges()
+
+    // Set the number of charges on this item
+    void SetCurrentCharges( int )
+
+    // Get the purchaser for this item.
+    hscript GetPurchaser()
+
+    // Think this item
+    void Think()
+
+    // Is this a permanent item?
+    bool IsPermanent()
+
+    bool StacksWithOtherOwners()
+
+    void SetStacksWithOtherOwners( bool )
+
+    int GetShareability()
+
+    int GetCost()
+
+    void LaunchLoot( bool, float, float, vector )
+
+    // Get the container for this item.
+    hscript GetContainer()
+
+Class CDOTA_Item_DataDriven, CDOTA_Item - A data driven usable item.
+    // Applies a data driven modifier to the target
+    void ApplyDataDrivenModifier( hscript, hscript, cstring, hscript )
+
+Class CDOTA_Item_Physical, CBaseAnimating - A physical item dropped in the world
+    // Returns the game time when this item was created in the world
+    float GetCreationTime()
+
+    // Returned the contained item.
+    hscript GetContainedItem()
+
+    // Set the contained item.
+    void SetContainedItem( hscript )
+
+Class CDOTA_PlayerResource, CBaseEntity - Interface to player data
+    void SetHasRepicked( int )
+
+    bool HasRepicked( int )
+
+    void SetHasRandomed( int )
+
+    bool HasRandomed( int )
+
+    bool IsValidTeamPlayerID( int )
+
+    bool IsValidTeamPlayer( int )
+
+    bool IsValidPlayerID( int )
+
+    bool IsValidPlayer( int )
+
+    int GetLevel( int )
+
+    void IncrementKills( int, int )
+
+    void IncrementAssists( int )
+
+    void IncrementDeaths( int )
+
+    int GetKills( int )
+
+    int GetAssists( int )
+
+    int GetDeaths( int )
+
+    float GetStuns( int )
+
+    float GetHealing( int )
+
+    int GetTowerKills( int )
+
+    int GetRoshanKills( int )
+
+    int GetTeamKills( int )
+
+    void IncrementStreak( int )
+
+    void ClearStreak( int )
+
+    int GetStreak( int )
+
+    int ModifyGold( int, int, bool, int )
+
+    void SetGold( int, int, bool )
+
+    void SpendGold( int, int, int )
+
+    int GetGold( int )
+
+    int GetReliableGold( int )
+
+    int GetUnreliableGold( int )
+
+    void ResetTotalEarnedGold( int )
+
+    int GetTotalEarnedGold( int )
+
+    int GetTotalGoldSpent( int )
+
+    void AddGoldSpentOnSupport( int, int )
+
+    int GetGoldSpentOnSupport( int )
+
+    int GetGoldSpentOnConsumables( int )
+
+    int GetGoldSpentOnItems( int )
+
+    int GetGoldLostToDeath( int )
+
+    int GetGoldSpentOnBuybacks( int )
+
+    float GetGoldPerMin( int )
+
+    float GetXPPerMin( int )
+
+    int GetAegisPickups( int )
+
+    void AddAegisPickup( int )
+
+    int GetRunePickups( int )
+
+    void AddRunePickup( int )
+
+    int GetNumConsumablesPurchased( int )
+
+    int GetNumItemsPurchased( int )
+
+    float GetTimeOfLastItemPurchase( int )
+
+    float GetTimeOfLastConsumablePurchase( int )
+
+    float GetTimeOfLastDeath( int )
+
+    int GetRespawnSeconds( int )
+
+    void IncrementTotalEarnedXP( int, int )
+
+    int GetTotalEarnedXP( int )
+
+    void AddClaimedFarm( int, float )
+
+    float GetClaimedFarm( int )
+
+    int GetRawPlayerDamage( int )
+
+    void ClearRawPlayerDamageMatrix( int )
+
+    void ClearKillsMatrix( int )
+
+    int GetTowerDamageTaken( int )
+
+    int GetCreepDamageTaken( int )
+
+    int GetHeroDamageTaken( int )
+
+    int GetDamageDoneToHero( int, int )
+
+    int GetKillsDoneToHero( int, int )
+
+    cstring GetSelectedHeroName( int )
+
+    int GetSelectedHeroID( int )
+
+    bool IsHeroSelected( cstring )
+
+    int WhoSelectedHero( cstring )
+
+    hscript GetSelectedHeroEntity( int )
+
+    bool HasSelectedHero( int )
+
+    hscript GetPlayer( int )
+
+    int GetNthPlayerIDOnTeam( int, int )
+
+    void IncrementLastHits( int )
+
+    int GetLastHits( int )
+
+    void IncrementGoldBagsCollected( int )
+
+    int GetGoldBagsCollected( int )
+
+    void IncrementLastHitStreak( int )
+
+    void ClearLastHitStreak( int )
+
+    int GetLastHitStreak( int )
+
+    void IncrementLastHitMultikill( int )
+
+    void ClearLastHitMultikill( int )
+
+    int GetLastHitMultikill( int )
+
+    void IncrementNearbyCreepDeaths( int )
+
+    int GetNearbyCreepDeaths( int )
+
+    void IncrementDenies( int )
+
+    int GetDenies( int )
+
+    void IncrementClaimedMisses( int )
+
+    int GetClaimedMisses( int )
+
+    void IncrementClaimedDenies( int )
+
+    int GetClaimedDenies( int )
+
+    void IncrementMisses( int )
+
+    int GetMisses( int )
+
+    void UpdateTeamSlot( int, int )
+
+    int GetTeam( int )
+
+    bool IsBroadcaster( int )
+
+    uint GetBroadcasterChannel( int )
+
+    uint GetBroadcasterChannelSlot( int )
+
+    uint GetSteamAccountID( int )
+
+    bool IsFakeClient( int )
+
+    bool HaveAllPlayersJoined()
+
+    bool GetPlayerLoadedCompletely( int )
+
+    void SetPlayerReservedState( int, bool )
+
+    bool GetPlayerReservedState( int )
+
+    unknown_variant_type GetConnectionState( int )
+
+    void HeroLevelUp( int )
+
+    void SetLastBuybackTime( int, int )
+
+    cstring GetPlayerName( int )
+
+    int GetUnitShareMaskForPlayer( int, int )
+
+    bool IsHeroSharedWithPlayerID( int, int )
+
+    bool AreUnitsSharedWithPlayerID( int, int )
+
+    bool IsDisableHelpSetForPlayerID( int, int )
+
+    void SetUnitShareMaskForPlayer( int, int, int, bool )
+
+    int GetNumCouriersForTeam( int )
+
+    hscript GetNthCourierForTeam( int, int )
+
+    void SetBuybackCooldownTime( int, float )
+
+    void SetBuybackGoldLimitTime( int, float )
+
+    void ResetBuybackCostTime( int )
+
+    // (playerID, heroClassName, gold, XP) - replaces the player's hero with a new one of the specified class, gold and XP
+    hscript ReplaceHeroWith( int, cstring, int, int )
+
+    // Set the buyback cost for this player.
+    void SetCustomBuybackCost( int, int )
+
+    // Set the buyback cooldown for this player.
+    void SetCustomBuybackCooldown( int, float )
+
+    int GetCustomBuybackCost( int )
+
+    float GetCustomBuybackCooldown( int )
+
+    // (playerID, entity) - force the given player's camera to follow the given entity
+    void SetCameraTarget( int, hscript )
+
+    int GetEventPointsForPlayerID( int )
+
+    int GetEventPremiumPointsGranted( int )
+
+    int GetEventRankGranted( int )
+
+Class ProjectileManager - !The projectile manager
+    // Creates a tracking projectile
+    void CreateTrackingProjectile( hscript )
+
+    // Creates a linear projectile and returns the projectile ID
+    int CreateLinearProjectile( hscript )
+
+    // Destroys the linear projectile matching the argument ID
+    void DestroyLinearProjectile( int )
+
+    // Makes the specified unit dodge projectiles
+    void ProjectileDodge( hscript )
+
+Class CDOTA_Unit_Nian, CDOTA_BaseNPC_Creature - A Dota NPC Unit
+    // Is the Nian's horn broken?
+    bool IsHornAlive()
+
+    // Is the Nian's tail broken?
+    bool IsTailAlive()
+
+    // Is the Nian horn?
+    hscript GetHorn()
+
+    // Is the Nian's tail broken?
+    hscript GetTail()
+
+Class CDotaQuest, CBaseEntity - A quest
+    // Set a quest value
+    void SetTextReplaceValue( int, int )
+
+    // Mark this quest complete
+    void CompleteQuest()
+
+    // Set the text replace string for this quest
+    void SetTextReplaceString( cstring )
+
+    // Add a subquest to this quest
+    void AddSubquest( hscript )
+
+    // Remove a subquest from this quest
+    void RemoveSubquest( hscript )
+
+    // Finds a subquest from this quest by name
+    hscript GetSubquestByName( cstring )
+
+    // Finds a subquest from this quest by index
+    hscript GetSubquest( int )
+
+Class CDotaSubquestBase, CBaseEntity - A subquest
+    // Set a subquest value
+    void SetTextReplaceValue( int, int )
+
+    // Mark this subquest complete
+    void CompleteSubquest()
+
+    // Set the text replace string for this subquest
+    void SetTextReplaceString( cstring )
+
+Class CEnvEntityMaker, CBaseEntity - env_entity_maker
+    // Create an entity at the location of the maker
+    void SpawnEntity()
+
+    // Create an entity at the location of a specified entity instance
+    void SpawnEntityAtEntityOrigin( hscript )
+
+    // Create an entity at the location of a named entity
+    void SpawnEntityAtNamedEntityOrigin( cstring )
+
+    // Create an entity at a specified location and orientaton, orientation is Euler angle in degrees (pitch, yaw, roll)
+    void SpawnEntityAtLocation( vector, vector )
+
+Class CEnvProjectedTexture, CBaseEntity - Dynamic, shadow casting light source
+    // Set light linear attenuation value
+    void SetLinearAttenuation( float )
+
+    // Set light quadratic attenuation value
+    void SetQuadraticAttenuation( float )
+
+    // Set light minimum range
+    void SetNearRange( float )
+
+    // Set light maximum range
+    void SetFarRange( float )
+
+    // Turn on/off light volumetrics: bool bOn, float flIntensity, float flNoise, int nPlanes, float flPlaneOffset
+    void SetVolumetrics( bool, float, float, int, float )
+
+Class GridNav - !The grid navigation system
+    // Get the X index of a given world X position
+    int WorldToGridPosX( float )
+
+    // Get the Y index of a given world Y position
+    int WorldToGridPosY( float )
+
+    // Get the X position of the center of a given X index
+    float GridPosToWorldCenterX( int )
+
+    // Get the Y position of the center of a given Y index
+    float GridPosToWorldCenterY( int )
+
+    // Checks whether the given position is blocked
+    bool IsBlocked( vector )
+
+    // Checks whether the given position is traversable
+    bool IsTraversable( vector )
+
+    // (position, radius, checkFullTreeRadius?) Checks whether there are any trees overlapping the given point
+    bool IsNearbyTree( vector, float, bool )
+
+    // Causes all trees in the map to regrow
+    void RegrowAllTrees()
+
+Class CSceneEntity, CBaseEntity - Choreographed scene which controls animation and/or dialog on one or more actors.
+    // Returns length of this scene in seconds.
+    float EstimateLength()
+
+    // If this scene is currently playing.
+    bool IsPlayingBack()
+
+    // If this scene is currently paused.
+    bool IsPaused()
+
+    // Start scene playback, takes activatorEntity as param
+    void Start( hscript )
+
+    // Cancel scene playback
+    void Cancel()
+
+    // Adds a team (by index) to the broadcast list
+    void AddBroadcastTeamTarget( int )
+
+    // Removes a team (by index) from the broadcast list
+    void RemoveBroadcastTeamTarget( int )
+
+    // given an entity reference, such as !target, get actual entity from scene object
+    hscript FindNamedEntity( cstring )
+
+    // given a dummy scene name and a vcd string, load the scene
+    bool LoadSceneFromString( cstring, cstring )
+
+    // Get the camera
+    hscript FindCamera()
+
+Class Convars - !Access to convar functions
+    // GetInt(name) : returns the convar as an int. May return null if no such convar.
+    variant GetInt( cstring )
+
+    // GetFloat(name) : returns the convar as a float. May return null if no such convar.
+    variant GetFloat( cstring )
+
+    // GetBool(name) : returns the convar as a boolean flag.
+    variant GetBool( cstring )
+
+    // GetStr(name) : returns the convar as a string. May return null if no such convar.
+    variant GetStr( cstring )
+
+    // SetInt(name, val) : sets the value of the convar to the int.
+    void SetInt( cstring, int )
+
+    // SetFloat(name, val) : sets the value of the convar to the float.
+    void SetFloat( cstring, float )
+
+    // SetBool(name, val) : sets the value of the convar to the bool.
+    void SetBool( cstring, bool )
+
+    // SetStr(name, val) : sets the value of the convar to the string.
+    void SetStr( cstring, cstring )
+
+    // RegisterCommand(name, fn, helpString, flags) : register a console command.
+    void RegisterCommand( cstring, hscript, cstring, int )
+
+    // RegisterConvar(name, defaultValue, helpString, flags): register a new console variable.
+    void RegisterConvar( cstring, cstring, cstring, int )
+
+    // GetCommandClient() : returns the player who issued this console command.
+    hscript GetCommandClient()
+
+    // GetDOTACommandClient() : returns the DOTA player who issued this console command.
+    hscript GetDOTACommandClient()
+
+Class CEntities - !The global list of entities
+    // Begin an iteration over the list of entities
+    hscript First()
+
+    // Continue an iteration over the list of entities, providing reference to a previously found entity
+    hscript Next( hscript )
+
+    // Creates an entity by classname
+    hscript CreateByClassname( cstring )
+
+    // Find entities by class name. Pass 'null' to start an iteration, or reference to a previously found entity to continue a search
+    hscript FindByClassname( hscript, cstring )
+
+    // Finds all entities by class name. Returns an array containing all the found entities.
+    variant FindAllByClassname( cstring )
+
+    // Find entities by name. Pass 'null' to start an iteration, or reference to a previously found entity to continue a search
+    hscript FindByName( hscript, cstring )
+
+    // Find all entities by name. Returns an array containing all the found entities in it.
+    variant FindAllByName( cstring )
+
+    // Find entities within a radius. Pass 'null' to start an iteration, or reference to a previously found entity to continue a search
+    hscript FindInSphere( hscript, vector, float )
+
+    // Find entities within a radius.
+    variant FindAllInSphere( vector, float )
+
+    // Find entities by targetname. Pass 'null' to start an iteration, or reference to a previously found entity to continue a search
+    hscript FindByTarget( hscript, cstring )
+
+    // Find entities by targetname.
+    variant FindAllByTarget( cstring )
+
+    // Find entities by model name. Pass 'null' to start an iteration, or reference to a previously found entity to continue a search
+    hscript FindByModel( hscript, cstring )
+
+    // Find entities by model name.
+    variant FindAllByModel( cstring )
+
+    // Find entities by name nearest to a point.
+    hscript FindByNameNearest( cstring, vector, float )
+
+    // Find entities by name within a radius. Pass 'null' to start an iteration, or reference to a previously found entity to continue a search
+    hscript FindByNameWithin( hscript, cstring, vector, float )
+
+    // Find entities by name within a radius.
+    variant FindAllByNameWithin( cstring, vector, float )
+
+    // Find entities by class name nearest to a point.
+    hscript FindByClassnameNearest( cstring, vector, float )
+
+    // Find entities by class name within a radius. Pass 'null' to start an iteration, or reference to a previously found entity to continue a search
+    hscript FindByClassnameWithin( hscript, cstring, vector, float )
+
+    // Find entities by class name within a radius.
+    variant FindAllByClassnameWithin( cstring, vector, float )
+
+Class CScriptHeroList - !The global list of heroes
+    // Get the Nth hero in the Hero List
+    hscript GetHero( int )
+
+    // Returns the number of heroes in the world
+    int GetHeroCount()
+
+    // Returns all the heroes in the world
+    variant GetAllHeroes()
+
+Class CScriptKeyValues - Container to hold keyvalues published to spawn functions in script
+    // Reads a spawn key
+    variant GetValue( cstring )
+
+Class CScriptParticleManager - !Used to create and manage particle effects
+    // Creates a new particle effect
+    int CreateParticle( cstring, int, hscript )
+
+    // Creates a new particle effect that only plays for the specified player
+    int CreateParticleForPlayer( cstring, int, hscript, hscript )
+
+    // Set the control point data for a control on a particle effect
+    void SetParticleControl( int, int, vector )
+
+    // Frees the specified particle index
+    void ReleaseParticleIndex( int )
+
+    void SetParticleAlwaysSimulate( int )
+
+    void SetParticleControlEnt( int, int, hscript, int, cstring, vector, bool )
+
+    cstring GetParticleReplacement( cstring, hscript )
+
+Class CScriptPrecacheContext - Container to hold context published to precache functions in script
+    // Reads a spawn key
+    variant GetValue( cstring )
+
+    // Precaches a specific resource
+    void AddResource( cstring )
+
+Class CTriggerCamera, CBaseEntity - Server-side camera entity
+    // get camera's current fov setting as integer
+    int GetFov()
+
+    // set camera's current fov in integer degrees and fov change rate as float
+    void SetFov( int, float )
+
+    // set screen fade effect
+    void ScreenFade( int, int, int, int, float, float, int )
+
+    // enable camera
+    void Enable()
+
