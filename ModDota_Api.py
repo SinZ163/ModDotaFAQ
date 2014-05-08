@@ -101,7 +101,7 @@ def execute(self, name, params, channel, userdata, rank):
             self.sendMessage(channel, "Too many functions matched ("+str(len(methods))+"). Please refine your search.")
             return
         else:
-            output = userdata["name"]
+            output = name
             self.sendMessage(channel, "Too many functions matched ("+str(len(methods))+"). replying privately.")
     colBold = chr(2)
     colBlue = chr(3)+"02"
@@ -115,4 +115,4 @@ def execute(self, name, params, channel, userdata, rank):
         comment = ""
         if "comment" in modDotaAPI.db[method[0]]["methods"][method[1]]:
             comment = " -- "+modDotaAPI.db[method[0]]["methods"][method[1]]["comment"]
-        self.sendMessage(channel, "["+method[0]+"] "+modDotaAPI.db[method[0]]["methods"][method[1]]["return"] + " " + method[1] + colBold+"(" + colBold + args + colBold+")" + colBold + comment)
+        self.sendMessage(output, "["+method[0]+"] "+modDotaAPI.db[method[0]]["methods"][method[1]]["return"] + " " + method[1] + colBold+"(" + colBold + args + colBold+")" + colBold + comment)
