@@ -90,7 +90,7 @@ def execute(self, name, params, channel, userdata, rank):
     for Class, ClassInfo in modDotaAPI.db.iteritems():
         for MethodName, MethodInfo in ClassInfo["methods"].iteritems():
             #print(MethodName)
-            if msg in MethodName:
+            if msg.lower() in MethodName.lower():
                 #MDAPI_logger.info("Found a method, "+MethodName)
                 methods.append((Class, MethodName))
     if len(methods) == 0:
