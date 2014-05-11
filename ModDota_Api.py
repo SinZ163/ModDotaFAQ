@@ -56,11 +56,12 @@ class ModDotaAPI:
                         }
                         if "()" in lineMsg[1]:
                             #no args
-                            methodName = lineMsg[1][:-3]
+                            methodName = lineMsg[1][:-4]
                         else:
+                            print(lineMsg)
                             methodName = lineMsg[1][:-1]
                             i = 2
-                            while lineMsg[i] != ")\n":
+                            while lineMsg[i].rstrip() != ")":
                                 method["args"].append(lineMsg[i].rstrip(","))
                                 #MDAPI_logger.info(method["args"])
                                 i = i + 1

@@ -1,0 +1,64 @@
+{
+	"id" : "insertsteamapikeyhere",
+	"leagues" : [
+		{
+			"name" : "The International 4",
+			"id" : "600",
+			"basepool" : "1600000",
+			"stretchGoals" : [
+				{
+					"prize" : "1800000",
+					"name" : "Evolving Battle Point Booster"
+				},
+				{
+					"prize" : "2000000",
+					"name" : "Loading Screen Treasure"
+				},
+				{
+					"prize" : "2200000",
+					"name" : "Arcana Vote"
+				},
+				{
+					"prize" : "2400000",
+					"name" : "Special Edition HUD"
+				},
+				{
+					"prize" : "2600000",
+					"name" : "Solo Championship Vote"
+				},
+				{
+					"prize" : "2900000",
+					"name" : "All Random Death Match"
+				},
+				{
+					"prize" : "3200000",
+					"name" : "Immortal Treasures"
+				},
+				{
+					"prize" : "3500000",
+					"name" : "Chat Emoticons"
+				},
+				{
+					"prize" : "4000000",
+					"name" : "Mini-Pudge Courier"
+				},
+				{
+					"prize" : "4500000",
+					"name" : "New Music"
+				},
+				{
+					"prize" : "5000000",
+					"name" : "1v1 Mid only matchmaking"
+				},
+				{
+					"prize" : "5500000",
+					"name" : "Environmental Effects"
+				},
+				{
+					"prize" : "6000000",
+					"name" : "Base Customization"
+				}
+			]
+		}
+	]
+}
