@@ -93,11 +93,11 @@ def PrizePoolThread(self, pipe):
                         if prizeCount > int(stretchGoal["prize"]):
                             #print "Announce new Stretchgoal"
                             #OK, we have a new stretchgoal to announce
-                            cmdhdlr.sendMessage("#w3x-to-vmf", "New stretch goal hit!")
+                            cmdhdlr.sendMessage("#dota2mods", "New stretch goal hit!")
                             #cmdhdlr.sendMessage("#test", "Stretch Goal "+league["stretchGoals"].index(stretchGoal)+", "+stretchGoal["name"]+" ("+stretchGoal["prize"]+")")
                             #print league["stretchGoals"].index(stretchGoal), stretchGoal["name"]
                             try:
-                                cmdhdlr.sendMessage("#w3x-to-vmf", "Stretch Goal {0}, {1} ({2})".format(league["stretchGoals"].index(stretchGoal)+1,
+                                cmdhdlr.sendMessage("#dota2mods", "Stretch Goal {0}, {1} ({2})".format(league["stretchGoals"].index(stretchGoal)+1,
                                                                                                   stretchGoal["name"].encode("utf-8"),
                                                                                                   stretchGoal["prize"].encode("utf-8")
                                                                                                   ))
@@ -113,7 +113,7 @@ def PrizePoolThread(self, pipe):
                         #Did we pass a milestone?
                         if (prizeCount // 100000) > league["milestone"]:
                             #We hit a milestone, lets announce this!
-                            cmdhdlr.sendMessage("#w3x-to-vmf", "TI4's Prize pool just reached the "+str((prizeCount // 100000)*100000)+ " milestone, currently at "+str(prizeCount))
+                            cmdhdlr.sendMessage("#dota2mods", "TI4's Prize pool just reached the "+str((prizeCount // 100000)*100000)+ " milestone, currently at "+str(prizeCount))
                             league["milestone"] = (prizeCount // 100000)
                             
                             modDotaPrizePool.SaveDB()
