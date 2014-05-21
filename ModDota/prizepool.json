@@ -57,6 +57,42 @@
 				{
 					"prize" : "6000000",
 					"name" : "Base Customization"
+				},
+				{
+					"name" : "Daily Hero Challenge",
+					"prize": "6800000"
+				},
+				{
+					"name" : "Alternative Voice",
+					"prize": "7200000"
+				},
+				{
+					"name" : "Favorite Hero Challenge",
+					"prize" : "7600000"
+				},
+				{
+					"name" : "Model Update Vote",
+					"prize" : "8000000"
+				},
+				{
+					"name" : "Multi-Kill banner",
+					"prize" : "8400000"
+				},
+				{
+					"name" : "Afterparty Broadcast",
+					"prize" : "8800000"
+				},
+				{
+					"name" : "New Upgraded Creeps",
+					"prize" : "9200000"
+				},
+				{
+					"name" : "A->Z Challenge Support",
+					"prize" : "9600000"
+				},
+				{
+					"name" : "Victory Prediction Taunt",
+					"prize" : "10000000"
 				}
 			]
 		}

@@ -97,11 +97,12 @@ def PrizePoolThread(self, pipe):
                             #cmdhdlr.sendMessage("#test", "Stretch Goal "+league["stretchGoals"].index(stretchGoal)+", "+stretchGoal["name"]+" ("+stretchGoal["prize"]+")")
                             #print league["stretchGoals"].index(stretchGoal), stretchGoal["name"]
                             try:
-                                cmdhdlr.sendMessage("#dota2mods", "Stretch Goal {0}, {1} ({2})".format(league["stretchGoals"].index(stretchGoal)+1,
+                                cmdhdlr.sendMessage("#dota2mods", "Stretch Goal {0}, {1} (${2:,})".format(league["stretchGoals"].index(stretchGoal)+1,
                                                                                                   stretchGoal["name"].encode("utf-8"),
-                                                                                                  stretchGoal["prize"].encode("utf-8")
+                                                                                                  int(stretchGoal["prize"])
                                                                                                   ))
                                 stretchGoal["completed"] = True
+                                league["milestone"] = (prizeCount // 100000)
                                 modDotaPrizePool.SaveDB()
                             except Exception as error:
                                 traceback.print_exc()
@@ -113,7 +114,7 @@ def PrizePoolThread(self, pipe):
                         #Did we pass a milestone?
                         if (prizeCount // 100000) > league["milestone"]:
                             #We hit a milestone, lets announce this!
-                            cmdhdlr.sendMessage("#dota2mods", "TI4's Prize pool just reached the "+str((prizeCount // 100000)*100000)+ " milestone, currently at "+str(prizeCount))
+                            cmdhdlr.sendMessage("#dota2mods", "TI4's Prize pool just reached the ${0:,d} milestone, currently at ${1:,d}".format((prizeCount // 100000)*100000, prizeCount))
                             league["milestone"] = (prizeCount // 100000)
                             
                             modDotaPrizePool.SaveDB()
@@ -135,10 +136,10 @@ def PrizePoolThread(self, pipe):
 def execute(self, name, params, channel, userdata, rank):
     if len(params) == 0:
         #Ok, default is ti4, because yolo
-        self.sendMessage(channel, "TI4 Prize Pool: "+str(modDotaPrizePool.CheckLeague(600)))
+        self.sendMessage(channel, "TI4 Prize Pool: ${0:,}".format(modDotaPrizePool.CheckLeague(600)))
     elif len(params) == 1:
         #ok, We have one argument, meaning its a leagueID
-        self.sendMessage(channel, str(params[0])+" Prize pool: "+str(modDotaPrizePool.CheckLeague(params[0])))
+        self.sendMessage(channel, str(params[0])+" Prize pool: ${0:,}".format(modDotaPrizePool.CheckLeague(params[0])))
     else:
         #ok, we need to handle this like a real command now
         if params[0] == "running":
