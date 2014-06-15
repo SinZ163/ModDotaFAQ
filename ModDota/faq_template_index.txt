@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="faq_template.css">
+	</head>
+	<body>
+		
+		<p>Renol, our humble IRC Bot, provides a list of faq entries that can be accessed with following syntax:</p>
+		<pre>?? &#60;faq name&#62;</pre>
+		<p>The list of faq entries are:</p>
+		
+		<div class="table">
+			<table>
+				<thead><tr>
+					<th>FAQ Name</th>
+					<th>Index Response</th>
+				</tr></thead>
+				<tbody>
+					{entry}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="footer">
+			<p>Template by <a href="http://github.com/DarkMio">DarkMio</a></p>
+		</div>
+
+	</body>
+</html>
