@@ -1,6 +1,8 @@
 import simplejson
 import urllib2
 import gzip
+import cgi
+import traceback
 from StringIO import StringIO
 
 class ModDota_Faq:
@@ -42,7 +44,10 @@ class ModDota_Faq_HTMLCompiler:
             try:
                 entryText = ""
                 for name, info in sorted(db.iteritems()):
-                    entryText = entryText + self.templates["entry"].format(entry=(name.encode("utf-8"), ("<br/>".join(info)).encode("utf-8")))
+                    info = "||".join(info)
+                    info = cgi.escape(info, quote=True)
+                    info = info.replace("||", "<br/>")
+                    entryText = entryText + self.templates["entry"].format(entry=(name.encode("utf-8"), info.encode("utf-8")))
                 with open("commands/ModDota/faqSite/index.html", "w") as f:
                     f.write(self.templates["index"].format(entry=(entryText)))
             except:
@@ -158,7 +163,7 @@ def command_target(self, name, params, channel, userdata, rank):
 def command_add(self, name, params, channel, userdata, rank):
     args = " ".join(params[1:])
     if "=" in args:
-        info = args.split("=")
+        info = args.split("=", 1)
         modfaq.db[info[0]] = info[1].split("||")
         modfaq.SaveDB()
         self.sendMessage(channel, "Added/Modified "+info[0]+", and set it to "+info[1])

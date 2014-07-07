@@ -44,7 +44,10 @@ class ModDotaPrizePool:
     def CheckLeague(self, id):
         info = self.fetch_page("http://api.steampowered.com/IEconDOTA2_570/GetTournamentPrizePool/v1?key={key}&leagueid={league}".format(key=self.info["id"], league=id))
         print(info)
-        return simplejson.loads(info)["result"]["prize_pool"]
+        if info:
+            return simplejson.loads(info)["result"]["prize_pool"]
+        else:  
+            return -1
 
     ##def SendMessage(self, channel, msg):
     ##    print("Doing workaround SendMessage!")
