@@ -3,6 +3,8 @@ import urllib2
 import gzip
 import cgi
 import traceback
+
+from string import strip as string_strip
 from StringIO import StringIO
 
 class ModDota_Faq:
@@ -20,10 +22,46 @@ class ModDota_Faq:
             simplejson.dump(self.db, fp = f, sort_keys=True, indent=4 * ' ', encoding = "utf-8")
             #f.write(simplejson.dumps(self.db, sort_keys=True, indent=4 * ' ').encode("utf-8"))
             
-    def readMsg(self, msg):
-        for name, lines in self.db.iteritems():
-            if msg.lower() == name.lower():
-                return lines
+    def readMsg(self, topic):
+        topic = topic.lower()
+        if topic in self.db:
+            messages = self.db[topic][1:] 
+            for i, val in enumerate(messages):
+                print type(val)
+                #messages[i] = val.decode("utf-8")
+                #print type(val.decode("utf-8"))
+            return self.db[topic][0], messages
+        else:
+            return None, None
+    
+    def setMsg(self, topic, msg):
+        topicLower = topic.lower()
+        
+        if topicLower in self.db:
+            realname = self.db[topicLower][0]
+            msg.insert(0, realname) # The first entry will be the real case of the topic
+            
+            self.db[topicLower] = msg
+            return True
+        else:
+            return None
+    
+    def addMsg(self, topic, msg):
+        assert isinstance(msg, list)
+        topicLower = topic.lower()
+        realname = topic
+        
+        msg.insert(0, realname)
+        
+        self.db[topicLower] = msg
+    
+    def delMsg(self, topic):
+        topicLower = topic.lower()
+        
+        del self.db[topicLower]
+    
+    def topicExists(self, topic):
+        return self.db[topic.lower()]
                 
 class ModDota_Faq_HTMLCompiler:
     def __init__(self):
@@ -57,13 +95,7 @@ class ModDota_Faq_HTMLCompiler:
 ID="faq" #this is our command identifier, so with conventional commands, this is the command name
 permission=0 #Min permission required to run the command (needs to be 0 as our lowest command is 0)
 
-#Take the symbols, and turn it into numbers (easier to do < or > with)
-rankTranslate = {
-    "" : 0,
-    "+" : 1,
-    "@" : 2,
-    "@@" : 3
-}
+
 #Take the numbers, and turn it back to words
 nameTranslate = [
     "Guest",
@@ -75,28 +107,41 @@ nameTranslate = [
 banList = [
 ]
 #What is our homemade prefix?
-mainPrefix = "??"
+mainPrefix = "?!"
 
 modfaq = ModDota_Faq()
 modhtml = ModDota_Faq_HTMLCompiler()
 
 #the command entry point from '=faq" or something
 def execute(self, name, params, channel, userdata, rank):
+    if len(params) == 0:
+        self.sendChatMessage(self.send, channel, "See {}faq help for a list of commands".format(self.cmdprefix))
+        return
+    
     try:
-        if rankTranslate[rank] >= commands[params[0]]["rank"]:
+        ident, host = userdata
+        
+        banned, info = self.Banlist.checkBan(name, ident, host, groupName = "ModDota")
+        if banned:
+            self.sendNotice(name, "You are banned from using this command.")
+            return
+        
+        if self.rankconvert[rank] >= commands[params[0]]["rank"]:
             command = commands[params[0]]["function"]
             command(self, name, params, channel, userdata, rank)
         else:
             self.sendNotice(name, "You do not have permissions for this command!")
     except KeyError as e:
         #self.sendChatMessage(self.send, channel, str(e))
-        self.sendChatMessage(self.send, channel, "invalid command!")
-        self.sendChatMessage(self.send, channel, "see {}faq help for a list of commands".format(self.cmdprefix))
+        self.sendChatMessage(self.send, channel, "Invalid command.")
+        self.sendChatMessage(self.send, channel, "See {}faq help for a list of commands".format(self.cmdprefix))
 
 def __initialize__(self, Startup):
     if self.events["chat"].doesExist("ModDota_Faq"):
         self.events["chat"].removeEvent("ModDota_Faq")
     self.events["chat"].addEvent("ModDota_Faq", onPrivmsg)
+    
+    self.Banlist.defineGroup("ModDota")
 
 def onPrivmsg(self, channels, userdata, message, currChannel):
     #are the first two characters equal to mainPrefix?
@@ -118,8 +163,12 @@ def onPrivmsg(self, channels, userdata, message, currChannel):
     rank = self.userGetRankNum(currChannel,userdata["name"])
     #this may or may not blow up, lets be careful
     try:
-        if userdata["name"] in banList:
-            self.sendNotice(userdata["name"], "You have been banned from using this command.")
+        globalbanned, globalinfo = self.Banlist.checkBan(userdata["name"], userdata["ident"], 
+                                                         userdata["host"])
+        banned, info = self.Banlist.checkBan(userdata["name"], userdata["ident"], 
+                                             userdata["host"], groupName = "ModDota")
+        if banned or globalbanned:
+            self.sendNotice(userdata["name"], "You are banned from using this command.")
             return
         if rank >= commands[params[0]]["rank"]:
             #They ARE smart enough, lets try to run the command
@@ -136,57 +185,102 @@ def onPrivmsg(self, channels, userdata, message, currChannel):
 bold = chr(2)
 def command_privmsg(self, name, params, channel, userdata, rank):
     print("PRIVMSG")
-    #This is where the normal command is.
-    args = " ".join(params[1:])
-    result = modfaq.readMsg(args)
-    if result:
-        for line in result:
-            self.sendMessage(channel, bold+args+":"+bold+" "+line)
+    # This is triggered when using ?? <topic>
+    # Sends a message in the channel.
+    args = " ".join(params[1:]).strip()
+    realname, lines = modfaq.readMsg(args)
+    
+    if realname != None:
+        for line in lines:
+            self.sendMessage(channel, u"{0}{1}:{0} {2}".format(bold, realname, line))
+    else:
+        self.sendNotice(name, "No such topic.")
     
 def command_notice(self, name, params, channel, userdata, rank):
-    #This is where the notice command is.
-    args = " ".join(params[1:])
-    result = modfaq.readMsg(args)
-    if result:
-        for line in result:
-            self.sendNotice(name, bold+args+":"+bold+" "+line)
+    #This is triggered when using ??< <topic>
+    # Sends a notice to the user.
+    args = " ".join(params[1:]).strip()
+    realname, lines = modfaq.readMsg(args)
+    
+    if realname != None:
+        for line in lines:
+            self.sendNotice(name, u"{0}{1}:{0} {2}".format(bold, realname, line))
+    else:
+        self.sendNotice(name, "No such topic.")
     
 def command_target(self, name, params, channel, userdata, rank):
-    #This is where the target command is.
-    target = params[1]
-    args = " ".join(params[2:])
-    result = modfaq.readMsg(args)
-    if result:
-        for line in result:
-            self.sendMessage(channel, bold+target+":"+bold+" ("+args+") "+line)
+    #This is triggered when using ??> <username> <topic>
+    # Sends a message in the channel, but puts the name of the
+    # target user at the start.
+    target = params[1].strip()
+    args = " ".join(params[2:]).strip()
+    realname, lines = modfaq.readMsg(args)
+    
+    if realname != None:
+        for line in lines:
+            self.sendMessage(channel, u"{0}{1}:{0} ({2}) {3}".format(bold, target, realname, line))
+    else:
+        self.sendNotice(name, "No such topic.")
             
 def command_add(self, name, params, channel, userdata, rank):
-    args = " ".join(params[1:])
+    args = " ".join(params[1:]).strip()
+    
     if "=" in args:
-        info = args.split("=", 1)
-        modfaq.db[info[0]] = info[1].split("||")
+        # We need to remove the leading and trailing whitespaces.
+        # This way, '??+ foo=bar' is the same as '??+ foo = bar'
+        info = map(string_strip, args.split("=", 1))
+        print info
+        
+        topicName = info[0]
+        topicNameLower = topicName.lower()
+        
+        # We also need to remove the leading and trailing whitespaces from
+        # each line, signaled by ||. map() lets us do it in one line.
+        topicContent = map(string_strip, info[1].split("||"))
+        
+        if topicNameLower in modfaq.db:
+            modfaq.setMsg(topicNameLower, topicContent)
+            realname = modfaq.db[topicNameLower][0]
+            
+            
+            self.sendMessage(channel, u"Modified '{0}' and set it to '{1}'".format(realname, info[1]))
+        else:
+            modfaq.addMsg(topicName, topicContent)
+            
+            self.sendMessage(channel, u"Added '{0}' and set it to '{1}'".format(topicName, info[1]))
+        
         modfaq.SaveDB()
-        self.sendMessage(channel, "Added/Modified "+info[0]+", and set it to "+info[1])
-        modhtml.RenderHTML(modfaq.db)
     else:
-        self.sendNotice(name, "Bad usage. use it like ??+ name=text")
+        self.sendNotice(name, "Incorrect syntax. Use the command like this: ??+ name=text")
     
 def command_del(self, name, params, channel, userdata, rank):
-    args = " ".join(params[1:])
-    self.sendMessage(channel, "Deleting "+args+", used to say "+"||".join(modfaq.db[args]))
-    del modfaq.db[args]
-    modfaq.SaveDB()
-    modhtml.RenderHTML(modfaq.db)
+    args = " ".join(params[1:]).strip()
+    topic = args.lower()
+    
+    if topic in modfaq.db:
+        realname = modfaq.db[topic][0]
+        self.sendMessage(channel, u"Deleting '{0}', used to say '{1}'".format(realname, u"||".join(modfaq.db[topic][1:])))
+        
+        modfaq.delMsg(topic)
+        modfaq.SaveDB()
+    else:
+        self.sendMessage(channel, "No such topic.")
 
 def debug_compile(self, name, params, channel, userdata, rank):
     modhtml.RenderHTML(modfaq.db)
+    self.sendNotice(name, "Done.")
+    
+    
+    
+    
+    
 #This is the database for all the commands
 commands = {
     ">" : {
         "function" : command_target, #The function to call
         "rank" : 0, #What is the min rank to use it
         #Note, everything below here is just for the help command
-        "help" : "Says the FAQ you are after, but prefixed with your targets name to bring attention to it",        
+        "help" : "Says the FAQ you are after, but prefixed with your targets name to bring attention to it",
         "args" : [
             {
                 "name" : "target",
