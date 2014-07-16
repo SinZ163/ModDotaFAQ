@@ -1,0 +1,2 @@
+<a href="#class-{className}-func-{func}">{func}</a><br/>
+            

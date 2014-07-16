@@ -1,0 +1,12 @@
+<div class="class"><a name="class-{name}">
+        <h1 id="class-title">{name}</h1>
+        <h5 id="class-base">Extends from {entry[base]}</h3>
+        <p id="class-description">{entry[comment]}</p>
+        <p id="class-description-community">{description}</p>
+        <div id="class-tableofcontents">
+            {classtableofcontents}
+        </div>
+        <div id="class-contents">
+{function}
+        </div>
+    </a></div>

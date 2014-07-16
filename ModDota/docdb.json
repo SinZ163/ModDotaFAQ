@@ -1,0 +1,14 @@
+{
+    "CBaseAnimating" : {
+        "description"  : "This is a community class description, aint it grand..",
+        "funcs" : {
+            "SetBodygroup" : {
+                "description" : "This is a community function description, its tot's legit",
+                "args" : [
+                    "CommunityName1",
+                    "CommunityName2"
+                ]
+            }
+        }
+    }
+}

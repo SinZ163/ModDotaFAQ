@@ -1,0 +1,11 @@
+            <div class="function"><a name="class-{className}-func-{func}">
+                <h2 id="func-title">{func}</h2>
+                <p id="func-officaldescription">{entry[comment]}</p>
+                <p id="func-communitydescription">{communityDesc}</p>
+                <p id="func-syntax">{entry[return]} {func}({args})</p>
+                <!--<div id="func-contents">
+                    {arg}
+
+                    <hr class="line-arg-seperate"/>
+                </div>-->
+            </a></div>
