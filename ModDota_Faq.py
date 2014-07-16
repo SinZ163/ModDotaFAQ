@@ -212,13 +212,15 @@ def command_target(self, name, params, channel, userdata, rank):
     # Sends a message in the channel, but puts the name of the
     # target user at the start.
     
+    params.pop(0) # removing the command sign
+    
     # We need to remove any leading empty strings before the first
     # TRUE parameter (one that is not an empty string).
     # Those empty strings appear due to splitting the initial
     # chat message string at whitespace, resulting in empty strings
     # if two or more white spaces come after another.
     for i in range(len(params)):
-        if len(params[i]) > 0:
+        if len(params[0]) > 0:
             break
         else:
             params.pop(0)
