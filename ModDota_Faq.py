@@ -1,11 +1,8 @@
 import simplejson
-import urllib2
-import gzip
 import cgi
 import traceback
 
 from string import strip as string_strip
-from StringIO import StringIO
 
 class ModDota_Faq:
     def __init__(self):
@@ -26,10 +23,6 @@ class ModDota_Faq:
         topic = topic.lower()
         if topic in self.db:
             messages = self.db[topic][1:] 
-            for i, val in enumerate(messages):
-                print type(val)
-                #messages[i] = val.decode("utf-8")
-                #print type(val.decode("utf-8"))
             return self.db[topic][0], messages
         else:
             return None, None
@@ -75,17 +68,23 @@ class ModDota_Faq_HTMLCompiler:
             self.init = True
         except:
             #fuck this, they aren't there meaning who ever setup renol failed horribly
-            pass
+            print "ModDotaFAQ ERROR appeared!"
+            traceback.print_exc()
     
     def RenderHTML(self, db):
         if self.init:
             try:
                 entryText = ""
                 for name, info in sorted(db.iteritems()):
+                    realName = db[name][0]
+                    info = db[name][1:]
+                    
                     info = "||".join(info)
                     info = cgi.escape(info, quote=True)
                     info = info.replace("||", "<br/>")
-                    entryText = entryText + self.templates["entry"].format(entry=(name.encode("utf-8"), info.encode("utf-8")))
+                    
+                    entryText = entryText + self.templates["entry"].format(entry=(realName.encode("utf-8"), info.encode("utf-8")))
+                    
                 with open("commands/ModDota/faqSite/index.html", "w") as f:
                     f.write(self.templates["index"].format(entry=(entryText)))
             except:
@@ -94,7 +93,6 @@ class ModDota_Faq_HTMLCompiler:
             
 ID="faq" #this is our command identifier, so with conventional commands, this is the command name
 permission=0 #Min permission required to run the command (needs to be 0 as our lowest command is 0)
-
 
 #Take the numbers, and turn it back to words
 nameTranslate = [
@@ -107,7 +105,7 @@ nameTranslate = [
 banList = [
 ]
 #What is our homemade prefix?
-mainPrefix = "?!"
+mainPrefix = "??"
 
 modfaq = ModDota_Faq()
 modhtml = ModDota_Faq_HTMLCompiler()
@@ -144,24 +142,25 @@ def __initialize__(self, Startup):
     self.Banlist.defineGroup("ModDota")
 
 def onPrivmsg(self, channels, userdata, message, currChannel):
-    #are the first two characters equal to mainPrefix?
+    # Are the first two characters equal to mainPrefix?
     if message[0:2] == mainPrefix:
-        #Yes they are, lets do work!
+        # Yes they are, lets do work!
         params = message.split(" ")
         params[0] = params[0][2:]
     else:
-        #they weren't, not worth looking at it anymore
+        # They weren't, not worth looking at it anymore.
         return
-    #was this in a channel, or as a privmsg
+
     if currChannel:
-        #Channel it is
+        # Message was sent in a channel
         channel = currChannel
     else:
-        #Nope, was a private message
+        # Nope, was a private message
         channel = userdata["name"]
-    #Ok, are they smart enough to actually run this command
+    # Ok, are they smart enough to actually run this command?
     rank = self.userGetRankNum(currChannel,userdata["name"])
-    #this may or may not blow up, lets be careful
+    
+    # This may or may not blow up, lets be careful.
     try:
         globalbanned, globalinfo = self.Banlist.checkBan(userdata["name"], userdata["ident"], 
                                                          userdata["host"])
@@ -171,16 +170,16 @@ def onPrivmsg(self, channels, userdata, message, currChannel):
             self.sendNotice(userdata["name"], "You are banned from using this command.")
             return
         if rank >= commands[params[0]]["rank"]:
-            #They ARE smart enough, lets try to run the command
+            # They ARE smart enough, lets try to run the command.
             command = commands[params[0]]["function"]
             command(self, userdata["name"], params, channel, userdata, rank)
         else:
-            #They are dumb, booo!
+            # They are dumb, booo!
             self.sendNotice(userdata["name"], "You do not have permissions for this command!")
     except KeyError:
-        #Ok, the command didn't exist, no biggy, act like it never happened.
+        # Ok, the command didn't exist, no biggy, act like it never happened.
         pass
-        #Doing a message if someone started their message with the prefix is bad
+        # Sending a message if someone started their message with the prefix is bad.
 
 bold = chr(2)
 def command_privmsg(self, name, params, channel, userdata, rank):
@@ -194,10 +193,10 @@ def command_privmsg(self, name, params, channel, userdata, rank):
         for line in lines:
             self.sendMessage(channel, u"{0}{1}:{0} {2}".format(bold, realname, line))
     else:
-        self.sendNotice(name, "No such topic.")
+        self.sendNotice(name, u"No such topic with the name '{0}'.".format(args))
     
 def command_notice(self, name, params, channel, userdata, rank):
-    #This is triggered when using ??< <topic>
+    # This is triggered when using ??< <topic>
     # Sends a notice to the user.
     args = " ".join(params[1:]).strip()
     realname, lines = modfaq.readMsg(args)
@@ -206,21 +205,34 @@ def command_notice(self, name, params, channel, userdata, rank):
         for line in lines:
             self.sendNotice(name, u"{0}{1}:{0} {2}".format(bold, realname, line))
     else:
-        self.sendNotice(name, "No such topic.")
+        self.sendNotice(name, u"No such topic with the name '{0}'.".format(args))
     
 def command_target(self, name, params, channel, userdata, rank):
     #This is triggered when using ??> <username> <topic>
     # Sends a message in the channel, but puts the name of the
     # target user at the start.
+    
+    # We need to remove any leading empty strings before the first
+    # TRUE parameter (one that is not an empty string).
+    # Those empty strings appear due to splitting the initial
+    # chat message string at whitespace, resulting in empty strings
+    # if two or more white spaces come after another.
+    for i in range(len(params)):
+        if len(params[i]) > 0:
+            break
+        else:
+            params.pop(0)
+            
     target = params[1].strip()
-    args = " ".join(params[2:]).strip()
+    args = (" ".join(params[2:])).strip()
+    
     realname, lines = modfaq.readMsg(args)
     
     if realname != None:
         for line in lines:
             self.sendMessage(channel, u"{0}{1}:{0} ({2}) {3}".format(bold, target, realname, line))
     else:
-        self.sendNotice(name, "No such topic.")
+        self.sendNotice(name, u"No such topic with the name '{0}'.".format(args))
             
 def command_add(self, name, params, channel, userdata, rank):
     args = " ".join(params[1:]).strip()
@@ -229,7 +241,6 @@ def command_add(self, name, params, channel, userdata, rank):
         # We need to remove the leading and trailing whitespaces.
         # This way, '??+ foo=bar' is the same as '??+ foo = bar'
         info = map(string_strip, args.split("=", 1))
-        print info
         
         topicName = info[0]
         topicNameLower = topicName.lower()
@@ -264,7 +275,7 @@ def command_del(self, name, params, channel, userdata, rank):
         modfaq.delMsg(topic)
         modfaq.SaveDB()
     else:
-        self.sendMessage(channel, "No such topic.")
+        self.sendNotice(name, u"No such topic with the name '{0}'.".format(args))
 
 def debug_compile(self, name, params, channel, userdata, rank):
     modhtml.RenderHTML(modfaq.db)
