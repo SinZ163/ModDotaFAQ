@@ -22,7 +22,6 @@
     {contents}
     <hr class="line-class-seperate">
 </div>
-<hr/>
 <div id="globals">
     Coming Soon!
 </div>

@@ -190,10 +190,10 @@ class ModDota_Api_HTMLCompiler:
                                 if len(self.communityDocs[Class]["funcs"][Func]["args"]) >= i:
                                 #print(self.communityDocs[Class]["funcs"][Func]["args"][i-1])
                                     if self.communityDocs[Class]["funcs"][Func]["args"][i-1]:
-                                        newArgs.append(arg + " " + self.communityDocs[Class]["funcs"][Func]["args"][i-1])
+                                        newArgs.append(self.templates["arg"].format(type=(arg), name=(self.communityDocs[Class]["funcs"][Func]["args"][i-1]) ))
                                         continue
-                                        
-                            newArgs.append(arg + " " + alphabetDict[i])
+                            
+                            newArgs.append(self.templates["arg"].format(type=(arg), name=(alphabetDict[i]) ))
                         communityDescText = " "
                         if communityFunc:
                             communityDescText = self.communityDocs[Class]["funcs"][Func]["description"]
@@ -322,6 +322,7 @@ def execute(self, name, params, channel, userdata, rank):
 
 def command_class(self, name, params, channel, userdata, rank):
     if len(params) > 1:
+        #todo: check vscript dump if this class even exists before creating
         if modhtml.community:
             if params[0] in modhtml.communityDocs:
                 print("changing description rather than defining class")
@@ -339,9 +340,8 @@ def command_class(self, name, params, channel, userdata, rank):
         self.sendMessage(channel, "ERROR: Not enough arguments")
     
 def command_function(self, name, params, channel, userdata, rank):
-    if len(params) >= 2:
-        if len(params) == 2:
-            params.append(" ")
+    if len(params) > 2:
+        #todo: check vscript dump if this function even exists before creating
         if modhtml.community:
             if params[1] in modhtml.communityDocs[params[0]]["funcs"]:
                 print("changing description rather than defining class")

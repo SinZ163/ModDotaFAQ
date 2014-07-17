@@ -1,3 +1,1 @@
-                    <!--<h3 id="arg-title">Argument name: Unknown</h3>-->
-                    <h4 id="arg-type">Argument type: {arg}</h3>
-                    <!--<p id="arg-description">Unknown</p>-->
+{type} <i>{name}</i>

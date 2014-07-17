@@ -1,0 +1,27 @@
+.function  {
+    padding-left : 10px;
+    background : #EEEEEE;
+    
+    border-radius: 10px;
+}
+.class {
+    background : #DDDDDD;
+    border : 2px solid;
+    border-radius: 25px;
+}
+#func-syntax {
+    border : 1px solid #000000;
+    background : #ffffff;
+}
+div.floating-menu {
+    position:fixed;
+    left : 90%;
+    background:#fff4c8;
+    border:1px solid #ffcc00;
+    width:150px;
+    z-index:100;
+}
+div.floating-menu a, div.floating-menu h3 {
+    display:block;
+    margin:0 0.5em;
+}
