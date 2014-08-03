@@ -1,6 +1,7 @@
 import logging
 import simplejson
 import string
+import time
 import traceback
 ID="api" #this is our command identifier, so with conventional commands, this is the command name
 permission=0 #Min permission required to run the command (needs to be 0 as our lowest command is 0)
@@ -157,10 +158,7 @@ class ModDota_Api_HTMLCompiler:
                             communityClass = True
                             #print("Ok, in theory we should be fine")
                     
-                    classTableOfContents = ""
-                    for Func in sorted(ClassInfo["methods"]):
-                        classTableOfContents = classTableOfContents + self.templates["class-tableofcontents"].format(className=(Class), func=(Func))
-                        
+                    classTableOfContents = ""                    
                     functionText = ""
                     for Func, FuncInfo in sorted(ClassInfo["methods"].iteritems()):
                         communityFunc = False
@@ -178,8 +176,6 @@ class ModDota_Api_HTMLCompiler:
                         if communityClass and communityFunc:
                             if len(self.communityDocs[Class]["funcs"][Func]["args"]) > 0:
                                 communityArg = True
-                            else:
-                                print("Not enough args")
                         i = 0                      
                         newArgs = []
                         for arg in FuncInfo["args"]:
@@ -194,6 +190,9 @@ class ModDota_Api_HTMLCompiler:
                                         continue
                             
                             newArgs.append(self.templates["arg"].format(type=(arg), name=(alphabetDict[i]) ))
+                            
+                        classTableOfContents = classTableOfContents + self.templates["class-tableofcontents"].format(className=(Class), func=(Func), args=(", ".join(newArgs)), entry=(FuncInfo))
+                        
                         communityDescText = " "
                         if communityFunc:
                             communityDescText = self.communityDocs[Class]["funcs"][Func]["description"]
@@ -239,7 +238,6 @@ def __initialize__(self, Startup):
     self.events["chat"].addEvent("ModDota_Docs", onPrivmsg)
 
 def onPrivmsg(self, channels, userdata, message, currChannel):
-    print("Hai")
     #are the first two characters equal to mainPrefix?
     if message[0:1] == mainPrefix:
         #Yes they are, lets do work!
@@ -310,15 +308,30 @@ def execute(self, name, params, channel, userdata, rank):
     colBlue = chr(3)+"02"
     colEnd = chr(3)
     for method in methods:
-        args = ""
+        args = []
+        msg = ""
         if len(modDotaAPI.db[method[0]]["methods"][method[1]]["args"]) > 0:
-            sep = colEnd + ", " + colBlue
-            args = " " + colBlue + sep.join(modDotaAPI.db[method[0]]["methods"][method[1]]["args"]) + colEnd +  " "
+            if (modhtml.community
+              and method[0] in modhtml.communityDocs
+              and method[1] in modhtml.communityDocs[method[0]]["funcs"]
+              and len(modhtml.communityDocs[method[0]]["funcs"][method[1]]["args"]) > 0):
+                #args exist.
+                i=0
+                for arg in modDotaAPI.db[method[0]]["methods"][method[1]]["args"]:
+                    if len(modhtml.communityDocs[method[0]]["funcs"][method[1]]["args"]) > i:
+                        args.append(colBlue+arg+colEnd +" "+ modhtml.communityDocs[method[0]]["funcs"][method[1]]["args"][i])
+                    else:
+                        args.append(colBlue+arg+colEnd)
+                    i = i + 1
+                msg = ", ".join(args)
+            else:
+                sep = colEnd + ", " + colBlue
+                msg = " " + colBlue + sep.join(modDotaAPI.db[method[0]]["methods"][method[1]]["args"]) + colEnd +  " "
             
         comment = ""
         if "comment" in modDotaAPI.db[method[0]]["methods"][method[1]]:
             comment = " -- "+modDotaAPI.db[method[0]]["methods"][method[1]]["comment"]
-        self.sendMessage(output, "["+method[0]+"] "+modDotaAPI.db[method[0]]["methods"][method[1]]["return"] + " " + method[1] + colBold+"(" + colBold + args + colBold+")" + colBold + comment)
+        self.sendMessage(output, "["+method[0]+"] "+modDotaAPI.db[method[0]]["methods"][method[1]]["return"] + " " + method[1] + colBold+"(" + colBold + msg + colBold+")" + colBold + comment)
 
 def command_class(self, name, params, channel, userdata, rank):
     if len(params) > 1:
@@ -377,12 +390,66 @@ def command_argument(self, name, params, channel, userdata, rank):
             self.sendMessage(channel, "Sorry, community documentation is out of service at the moment")
     else:
         self.sendMessage(channel, "ERROR: Not enough arguments")
-    
+def command_help(self, name, params, channel, userdata, rank):
+    print(params)
+    paramCount = len(params)
+    if paramCount > 0:
+        #ok, info on a command, let's go!
+        if params[0] in commands:
+            commandInfo = commands[params[0]]
+            if rank < commandInfo["rank"]:
+                self.sendNotice(name, "You do not have permission for this command.")
+                return
+            if paramCount > 2:
+                param = " ".join(params[1:])
+                #We want info on an argument
+                argInfo = {}
+                for arg in commandInfo["args"]:
+                    if param == arg["name"]:
+                        argInfo = arg
+                        break
+                self.sendNotice(name, argInfo["description"])
+            else: #just the command
+                #Lets compile the argStuff
+                argStuff = ""
+                argCount = len(commandInfo["args"])
+                if argCount > 0:
+                    for arg in commandInfo["args"]:
+                        if arg["required"]:
+                            argStuff = argStuff + " <" + arg["name"] + ">"
+                        else:
+                            argStuff = argStuff + " [" + arg["name"] + "]"
+                #Send to IRC
+                self.sendNotice(name, commandInfo["help"])
+                self.sendNotice(name, "Use case: "+self.cmdprefix+ID+" "+params[0]+argStuff)
+        else:
+            self.sendNotice(name, "That isn't a command...")
+            return
+    else:
+        #List the commands
+                        #0,  1,  2,  3
+        commandRanks = [[], [], [], []]
+        for command, info in commands.iteritems():
+            commandRanks[info["rank"]].append(command)
+        
+        self.sendNotice(name, "Available commands:")
+        for i in range(0,rank):
+            if len(commandRanks[i]) > 0:
+                self.sendNotice(name, nameTranslate[i]+": "+", ".join(commandRanks[i]))
+            
 def debug_compile(self, name, params, channel, userdata, rank):
     print("Debug compiling")
+    startTime = time.time()
     modhtml.RenderHTML(modDotaAPI.db)
-    self.sendMessage(channel, "Done.")
+    endTime = time.time()
+    self.sendMessage(channel, "Compiled html, and took {} seconds".format(endTime - startTime))
 
+nameTranslate = [
+    "Guest",
+    "Voice",
+    "Operator",
+    "Bot Admin"
+]
 aliases = {
     "arguments" : "argument"
 }    
@@ -448,6 +515,22 @@ commands = {
                 "name" : "arguments",
                 "description" : "the argument names that will be given to this function",
                 "required" : True
+            }
+        ]
+    },
+    "help" : {
+        "function" : command_help,
+        "rank" : 0,
+        "help" : "Shows this info..?",
+        "args" : [
+            {
+                "name" : "command",
+                "description" : "The command you want info for",
+                "required" : False
+            },{
+                "name" : "arg",
+                "description" : "The argument you want info for",
+                "required" : False
             }
         ]
     },
