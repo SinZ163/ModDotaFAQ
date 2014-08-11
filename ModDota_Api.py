@@ -14,69 +14,74 @@ class ModDotaAPI:
         pass
     def ReadDump(self):
         with open("commands/ModDota/vscript-dump.txt", "r") as f:
-            curClass = ""
-            db = {}
-            lineNum = 0
-            prevLine = ""
-            for line in f:
-                lineMsg = line.lstrip(" ").split(" ")
-                lineNum = lineNum + 1
-                if lineMsg[0] == "Class":
-                    #MDAPI_logger.info("This is a class, right.. :"+line)
-                    #Ok, class time
-                    if lineMsg[1] in db:
-                        #ok, dafuq. why is this already present
-                        raise ClassAlreadyExistsDontDoThisToMeException()
+            try:
+                curClass = "##GLOBALS##"
+                db = {
+                    "##GLOBALS##" : {"methods" : {}}
+                }
+                lineNum = 0
+                prevLine = ""
+                for line in f:
+                    lineMsg = line.lstrip(" ").split(" ")
+                    lineNum = lineNum + 1
+                    if lineMsg[0] == "Class":
+                        #MDAPI_logger.info("This is a class, right.. :"+line)
+                        #Ok, class time
+                        if lineMsg[1] in db:
+                            #ok, dafuq. why is this already present
+                            raise ClassAlreadyExistsDontDoThisToMeException()
+                        else:
+                           
+                            if lineMsg[1][-1:] == ",":
+                                curClass = lineMsg[1][:-1]
+                                db[curClass] = {"methods" : {}}
+                                #Ok, it is a child class.
+                                db[curClass]["base"] = lineMsg[2]
+                                
+                                db[curClass]["comment"] = " ".join(lineMsg[4:])
+                            else:
+                                curClass = lineMsg[1]
+                                db[curClass] = {"methods" : {}}
+                                db[curClass]["comment"] = " ".join(lineMsg[3:])
+                        #Ok boys, new class
+                    elif "//" in line:
+                        #comment, we dont care about it yet
+                        #we dont want to continue, as we want the code below to run anyway
+                        pass
+                    elif lineMsg[0] == "":
+                        #blank line, boring!!
+                        pass
                     else:
-                       
-                        if lineMsg[1][-1:] == ",":
-                            curClass = lineMsg[1][:-1]
-                            db[curClass] = {"methods" : {}}
-                            #Ok, it is a child class.
-                            db[curClass]["base"] = lineMsg[2]
+                        #MDAPI_logger.info("This is a method, right.. : "+line)
+                        #MDAPI_logger.info(lineMsg)
+                        if len(lineMsg) > 1:
+                            method = {
+                                "return" : lineMsg[0],
+                                "args" : []
+                            }
+                            if "()" in lineMsg[1]:
+                                #no args
+                                methodName = lineMsg[1][:-4]
+                            else:
+                                #print(lineMsg)
+                                methodName = lineMsg[1][:-1]
+                                i = 2
+                                while lineMsg[i].rstrip() != ")":
+                                    method["args"].append(lineMsg[i].rstrip(","))
+                                    #MDAPI_logger.info(method["args"])
+                                    i = i + 1
                             
-                            db[curClass]["comment"] = " ".join(lineMsg[4:])
-                        else:
-                            curClass = lineMsg[1]
-                            db[curClass] = {"methods" : {}}
-                            db[curClass]["comment"] = " ".join(lineMsg[3:])
-                    #Ok boys, new class
-                elif "//" in line:
-                    #comment, we dont care about it yet
-                    #we dont want to continue, as we want the code below to run anyway
-                    pass
-                elif lineMsg[0] == "":
-                    #blank line, boring!!
-                    pass
-                else:
-                    #MDAPI_logger.info("This is a method, right.. : "+line)
-                    #MDAPI_logger.info(lineMsg)
-                    if len(lineMsg) > 1:
-                        method = {
-                            "return" : lineMsg[0],
-                            "args" : []
-                        }
-                        if "()" in lineMsg[1]:
-                            #no args
-                            methodName = lineMsg[1][:-4]
-                        else:
-                            #print(lineMsg)
-                            methodName = lineMsg[1][:-1]
-                            i = 2
-                            while lineMsg[i].rstrip() != ")":
-                                method["args"].append(lineMsg[i].rstrip(","))
-                                #MDAPI_logger.info(method["args"])
-                                i = i + 1
-                        
-                        commentStart = prevLine.find("//")
+                            commentStart = prevLine.find("//")
 
-                        if commentStart > -1: #meaning it exists
-                            method["comment"] = prevLine[commentStart+3:]
-                            
-                        db[curClass]["methods"][methodName] = method
-                prevLine = line
-            self.db = db
-            
+                            if commentStart > -1: #meaning it exists
+                                method["comment"] = prevLine[commentStart+3:]
+                            print("Class: "+curClass)
+                            print("Method: "+methodName)
+                            db[curClass]["methods"][methodName] = method
+                    prevLine = line
+                self.db = db
+            except:
+                print(traceback.format_exc())
 class ModDota_Api_HTMLCompiler:
     def __init__(self):
         self.init = False
@@ -319,7 +324,10 @@ def execute(self, name, params, channel, userdata, rank):
                 i=0
                 for arg in modDotaAPI.db[method[0]]["methods"][method[1]]["args"]:
                     if len(modhtml.communityDocs[method[0]]["funcs"][method[1]]["args"]) > i:
-                        args.append(colBlue+arg+colEnd +" "+ modhtml.communityDocs[method[0]]["funcs"][method[1]]["args"][i])
+                        if modhtml.communityDocs[method[0]]["funcs"][method[1]]["args"][i] != False:
+                            args.append(colBlue+arg+colEnd +" "+ str(modhtml.communityDocs[method[0]]["funcs"][method[1]]["args"][i]))
+                        else:
+                            args.append(colBlue+arg+colEnd)
                     else:
                         args.append(colBlue+arg+colEnd)
                     i = i + 1

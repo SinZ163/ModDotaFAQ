@@ -263,6 +263,7 @@ def command_add(self, name, params, channel, userdata, rank):
             self.sendMessage(channel, u"Added '{0}' and set it to '{1}'".format(topicName, info[1]))
         
         modfaq.SaveDB()
+        modhtml.RenderHTML(modfaq.db)
     else:
         self.sendNotice(name, "Incorrect syntax. Use the command like this: ??+ name=text")
     
@@ -276,6 +277,7 @@ def command_del(self, name, params, channel, userdata, rank):
         
         modfaq.delMsg(topic)
         modfaq.SaveDB()
+        modhtml.RenderHTML(modfaq.db)
     else:
         self.sendNotice(name, u"No such topic with the name '{0}'.".format(args))
 
