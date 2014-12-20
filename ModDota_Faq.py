@@ -224,7 +224,9 @@ def command_target(self, name, params, channel, userdata, rank):
             break
         else:
             params.pop(0)
-            
+    if len(params) < 2:
+        self.sendNotice(name, "Not enough parameters")
+        return
     target = params[1].strip()
     args = (" ".join(params[2:])).strip()
     
