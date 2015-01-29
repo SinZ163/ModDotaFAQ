@@ -227,8 +227,8 @@ def command_target(self, name, params, channel, userdata, rank):
     if len(params) < 2:
         self.sendNotice(name, "Not enough parameters")
         return
-    target = params[1].strip()
-    args = (" ".join(params[2:])).strip()
+    target = params[0].strip()
+    args = (" ".join(params[1:])).strip()
     
     realname, lines = modfaq.readMsg(args)
     
