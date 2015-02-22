@@ -17,7 +17,7 @@ class ModDotaAPI:
             try:
                 curClass = "##GLOBALS##"
                 db = {
-                    "##GLOBALS##" : {"methods" : {}}
+                    "##GLOBALS##" : {"methods" : {},"comment" : " "}
                 }
                 lineNum = 0
                 prevLine = ""
@@ -156,6 +156,7 @@ class ModDota_Api_HTMLCompiler:
                 contents=""
                 classInfo = []
                 for Class, ClassInfo in sorted(db.iteritems()):
+                    print(Class)
                     communityClass = False
                     #print("Do we have this class defined")
                     if self.community:
@@ -166,6 +167,7 @@ class ModDota_Api_HTMLCompiler:
                     classTableOfContents = ""                    
                     functionText = ""
                     for Func, FuncInfo in sorted(ClassInfo["methods"].iteritems()):
+                        print(Func)
                         communityFunc = False
                         if communityClass == True:
                             #print("Do we have this func defined")
