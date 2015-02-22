@@ -4,8 +4,8 @@ ID="chat"
 permission=0
 
 blackList = {
-    "(http[s]?://)?([a-zA-z0-9]*\.)*reddit\.com(/.*)?" : "Posting reddit links will get you shadowbanned",
-    "(http[s]?://)?([a-zA-z0-9]*\.)*redd\.it(/.*)?" : "Posting reddit links will get you shadowbanned"
+    "(http[s]?://)?([a-zA-z0-9]*\.)*reddit\.com(/.*)?" : "Voting on reddit links posted here may get you shadowbanned",
+    "(http[s]?://)?([a-zA-z0-9]*\.)*redd\.it(/.*)?" : "Voting on reddit links posted here may get you shadowbanned"
 }
 
 def execute(self, name, params, channel, userdata, rank):
