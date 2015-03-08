@@ -1,4 +1,5 @@
 import re
+import random
 
 ID="chat"
 permission=0
@@ -6,6 +7,8 @@ permission=0
 blackList = {
     "(http[s]?://)?([a-zA-z0-9]*\.)*reddit\.com(/.*)?" : "Posting reddit links will get you shadowbanned",
     "(http[s]?://)?([a-zA-z0-9]*\.)*redd\.it(/.*)?" : "Posting reddit links will get you shadowbanned"
+}
+kickList = {
 }
 
 def execute(self, name, params, channel, userdata, rank):
@@ -26,3 +29,14 @@ def onPrivmsg(self, channels, userdata, message, currChannel):
         else:
             #self.sendMessage(currChannel, "\"" + message + "\" does not match the following regex: \""+blackRegex+"\"")
             pass
+    for kickRegex, kickResponse in sorted(kickList.iteritems()):
+        if re.search(kickRegex, message):
+            kickEntry = kickList[kickRegex]
+            randomNumber = random.random()
+            if randomNumber<= kickEntry["chance"]:
+                msg = u"KICK {chan} {person} :{message}".format(chan=currChannel, message=kickEntry["message"], person=userdata["name"])
+                self.send(msg)
+                print(msg)
+            else:
+                print(str(randomNumber)+" was less than "+str(kickEntry["chance"]))
+               # self.sendNotice("SinZ", str(randomNumber)+" wasn't less than "+str(kickEntry["chance"]))
