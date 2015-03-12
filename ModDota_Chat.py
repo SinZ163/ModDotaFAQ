@@ -5,8 +5,7 @@ ID="chat"
 permission=0
 
 blackList = {
-    "(http[s]?://)?([a-zA-z0-9]*\.)*reddit\.com(/.*)?" : "Posting reddit links will get you shadowbanned",
-    "(http[s]?://)?([a-zA-z0-9]*\.)*redd\.it(/.*)?" : "Posting reddit links will get you shadowbanned"
+    "(http[s]?://)?([a-zA-z0-9]*\.)*(?<!np\.)(reddit\.com|redd\.it)(/.*)?" : "Posting reddit links will get you shadowbanned"
 }
 kickList = {
 }
@@ -22,7 +21,7 @@ def __initialize__(self, Startup):
     self.Banlist.defineGroup("ModDota")
     
 def onPrivmsg(self, channels, userdata, message, currChannel):
-    print("I am alive")
+    #print("I am alive")
     for blackRegex, blackResponse in sorted(blackList.iteritems()):
         if re.search(blackRegex, message):
             self.sendMessage(currChannel, blackList[blackRegex])
