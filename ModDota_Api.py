@@ -3,7 +3,7 @@ import simplejson
 import string
 import time
 import traceback
-ID="api" #this is our command identifier, so with conventional commands, this is the command name
+ID="api_s1" #this is our command identifier, so with conventional commands, this is the command name
 permission=0 #Min permission required to run the command (needs to be 0 as our lowest command is 0)
 
 MDAPI_logger = logging.getLogger("NEMPolling")

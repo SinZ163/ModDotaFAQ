@@ -32,8 +32,8 @@ class ModDotaAPI:
         else:
             return request.text
     def ReadDump(self):
-        #serverInfo = self.fetch_page("https://raw.githubusercontent.com/ModDota/API/master/_data/lua_server.json")
-        serverInfo = self.fetch_page("https://raw.githubusercontent.com/SinZ163/TestTracking/master/lua_server.json")
+        serverInfo = self.fetch_page("https://raw.githubusercontent.com/ModDota/API/master/_data/lua_server.json")
+        #serverInfo = self.fetch_page("https://raw.githubusercontent.com/SinZ163/TestTracking/master/lua_server.json")
         communityInfo = self.fetch_page("https://raw.githubusercontent.com/ModDota/API/master/_data/override_lua_server.json")
         self.lua_server = serverInfo.copy()
         self.lua_server = update(self.lua_server, communityInfo)
